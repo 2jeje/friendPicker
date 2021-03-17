@@ -1,9 +1,11 @@
   package com.jeje.friendpicker
 
+import android.app.Dialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.Window
 import kotlinx.android.synthetic.main.activity_main.*
 
   class MainActivity : AppCompatActivity() {
@@ -25,15 +27,17 @@ import kotlinx.android.synthetic.main.activity_main.*
           TestData("첫 번째 데이터15", "두 번째 데이터15", "세 번째 데이터15")
       )
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+      override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         activityBtn.setOnClickListener(View.OnClickListener {
-
             var intent = Intent(this, FriendPickerActivity::class.java)
-
             startActivity(intent)
+        })
+
+
+        dialogBtn.setOnClickListener(View.OnClickListener {
         })
 
         fragmentBtn.setOnClickListener(View.OnClickListener {
@@ -45,7 +49,6 @@ import kotlinx.android.synthetic.main.activity_main.*
             transaction.commit()
             intent.putExtra("DataList", dataList)
         })
-
     }
 }
 

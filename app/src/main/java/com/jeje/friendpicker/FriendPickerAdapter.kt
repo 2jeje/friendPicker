@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 
 class FriendPickerAdapter(private var list: MutableList<TestData>) : RecyclerView.Adapter<FriendPickerAdapter.ListItemViewHolder>() {
 
-
     inner class ListItemViewHolder(itemView: View?): RecyclerView.ViewHolder(itemView!!) {
 
         var data1Text: TextView = itemView!!.findViewById(R.id.data1Text)
