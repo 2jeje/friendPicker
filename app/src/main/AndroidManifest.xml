@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FriendPicker">
-        <activity android:name=".FriendPickerActivity"></activity>
+        <activity android:name=".FriendPickerActivityDialog"
+                  android:theme="@style/Theme.AppCompat.DayNight.Dialog"
+            ></activity>
+        <activity android:name=".FriendPickerActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

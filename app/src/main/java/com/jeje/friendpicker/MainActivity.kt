@@ -38,6 +38,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 
         dialogBtn.setOnClickListener(View.OnClickListener {
+
+            var intent = Intent(this, FriendPickerActivityDialog::class.java)
+            startActivity(intent)
+
         })
 
         fragmentBtn.setOnClickListener(View.OnClickListener {

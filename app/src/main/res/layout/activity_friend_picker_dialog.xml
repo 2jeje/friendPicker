@@ -4,8 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="300dp"
     android:layout_height="300dp"
-    tools:context=".FriendPickerActivity">
+    tools:context=".FriendPickerActivityDialog">
 
+    <FrameLayout
+        android:id="@+id/dialoglistFrame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+    </FrameLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
