@@ -45,7 +45,6 @@ class FriendPickerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_friend_picker, container, false)
     }
 
@@ -55,15 +54,11 @@ class FriendPickerFragment : Fragment() {
         var list: ArrayList<TestData> = requireActivity().intent!!.extras!!.get("DataList") as ArrayList<TestData>
         Log.e("FirstFragment", "Data List: ${list}")
 
-        // Fragment에서 전달받은 list를 넘기면서 ListAdapter 생성
         pickerAdapter = FriendPickerAdapter(context!!)
         recyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-        // RecyclerView.adapter에 지정
         recyclerView.adapter = pickerAdapter
         pickerAdapter.data = dataList
         pickerAdapter.notifyDataSetChanged()
-
-
     }
 
 }
