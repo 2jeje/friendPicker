@@ -69,8 +69,12 @@ data class Friend(
     var profileImage: String? = null,
     var nickName: String? = null
 ){
-    @BindingAdapter("imageUrl")
-    fun loadImage(view: ImageView, url: String) {
-        Picasso.get().load(url).into(view)
+
+    object Bind {
+        @JvmStatic
+        @BindingAdapter("app:imageUri")
+        fun loadImage(imageView: ImageView, imageUri: String) {
+            Picasso.get().load(imageUri).into(imageView)
+        }
     }
 }
