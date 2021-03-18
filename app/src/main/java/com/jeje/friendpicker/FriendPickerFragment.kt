@@ -13,6 +13,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.kakao.sdk.partner.talk.friendsForPartner
+import com.kakao.sdk.talk.TalkApiClient
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_friend_picker.*
 
@@ -53,14 +55,31 @@ class FriendPickerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var list: ArrayList<Friend> = requireActivity().intent!!.extras!!.get("DataList") as ArrayList<Friend>
-        Log.e("FirstFragment", "Data List: ${list}")
+//        var list: ArrayList<Friend> = requireActivity().intent!!.extras!!.get("DataList") as ArrayList<Friend>
+//        Log.e("FirstFragment", "Data List: ${list}")
 
         pickerAdapter = FriendPickerAdapter(context!!)
         recyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         recyclerView.adapter = pickerAdapter
-        pickerAdapter.data = dataList
-        pickerAdapter.notifyDataSetChanged()
+
+        Log.d("jeje", "friendsForPartner")
+        TalkApiClient.instance.friendsForPartner { friends, error ->
+            if (error != null) {
+                Log.i("jeje", "${error}")
+
+            } else {
+                Log.i("jeje", "${friends}")
+                if (friends != null) {
+                    dataList.clear()
+                    for (friend in friends.elements) {
+                        dataList.add(Friend(profileImage = friend.profileThumbnailImage, nickName = friend.profileNickname))
+                    }
+                }
+
+                pickerAdapter.data = dataList
+                pickerAdapter.notifyDataSetChanged()
+            }
+        }
     }
 
 }
@@ -69,12 +88,14 @@ data class Friend(
     var profileImage: String? = null,
     var nickName: String? = null
 ){
-
     object Bind {
         @JvmStatic
         @BindingAdapter("app:imageUri")
         fun loadImage(imageView: ImageView, imageUri: String) {
-            Picasso.get().load(imageUri).into(imageView)
+            if (imageUri.isNullOrEmpty() == false) {
+                Picasso.get().load(imageUri).into(imageView)
+            }
+
         }
     }
 }
