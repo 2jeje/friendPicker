@@ -54,4 +54,6 @@ dependencies {
 
     implementation "com.kakao.sdk:v2-partner-user:2.4.1" // 카카오 로그인
     implementation "com.kakao.sdk:v2-partner-talk:2.4.1" // 친구, 메시지(카카오톡)
+
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }

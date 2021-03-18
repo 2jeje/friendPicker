@@ -7,10 +7,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.databinding.BindingAdapter
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_friend_picker.*
 
 /**
@@ -65,4 +68,9 @@ class FriendPickerFragment : Fragment() {
 data class Friend(
     var profileImage: String? = null,
     var nickName: String? = null
-)
+){
+    @BindingAdapter("imageUrl")
+    fun loadImage(view: ImageView, url: String) {
+        Picasso.get().load(url).into(view)
+    }
+}
