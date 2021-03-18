@@ -18,10 +18,10 @@ class FriendPickerAdapter(private var list: MutableList<TestData>) : RecyclerVie
         // onBindViewHolder의 역할을 대신한다.
         fun bind(data: TestData, position: Int) {
             Log.d("ListAdapter", "===== ===== ===== ===== bind ===== ===== ===== =====")
-            Log.d("ListAdapter", data.getData1()+" "+data.getData2()+" "+data.getData3())
-            data1Text.text = data.getData1()
-            data2Text.text = data.getData2()
-            data3Text.text = data.getData3()
+            Log.d("ListAdapter", data.data1+" "+data.data2+" "+data.data3)
+            data1Text.text = data.data1
+            data2Text.text = data.data2
+            data3Text.text = data.data3
         }
     }
 

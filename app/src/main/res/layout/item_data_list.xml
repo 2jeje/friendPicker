@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="data"
+            type="com.jeje.friendpicker.TestData" />
+    </data>
+
 <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/storeItemLayout"
     android:layout_width="match_parent"
@@ -24,6 +32,7 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textColor="#000000"
+            android:text="@{data.data1}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@id/data2Text"/>
@@ -33,6 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="12sp"
+            android:text="@{data.data2}"
             app:layout_constraintTop_toBottomOf="@id/data2Text"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@id/data3Text"/>
@@ -42,9 +52,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="12sp"
+            android:text="@{data.data3}"
             app:layout_constraintTop_toBottomOf="@id/data2Text"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
