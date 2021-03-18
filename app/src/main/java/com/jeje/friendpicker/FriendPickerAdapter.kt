@@ -1,41 +1,39 @@
 package com.jeje.friendpicker
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.jeje.friendpicker.databinding.ItemDataListBinding
 
-class FriendPickerAdapter(private var list: MutableList<TestData>) : RecyclerView.Adapter<FriendPickerAdapter.ListItemViewHolder>() {
+class FriendPickerAdapter(private val context : Context) : RecyclerView.Adapter<FriendPickerAdapter.ViewHolder>() {
 
-    inner class ListItemViewHolder(itemView: View?): RecyclerView.ViewHolder(itemView!!) {
 
-        var data1Text: TextView = itemView!!.findViewById(R.id.data1Text)
-        var data2Text: TextView = itemView!!.findViewById(R.id.data2Text)
-        var data3Text: TextView = itemView!!.findViewById(R.id.data3Text)
+    var data = listOf<TestData>()
+
+    inner class ViewHolder(val binding : ItemDataListBinding): RecyclerView.ViewHolder(binding.root) {
 
         // onBindViewHolder의 역할을 대신한다.
         fun bind(data: TestData, position: Int) {
             Log.d("ListAdapter", "===== ===== ===== ===== bind ===== ===== ===== =====")
             Log.d("ListAdapter", data.data1+" "+data.data2+" "+data.data3)
-            data1Text.text = data.data1
-            data2Text.text = data.data2
-            data3Text.text = data.data3
+
+            binding.data = data
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListItemViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_data_list, parent, false)
-        return ListItemViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = ItemDataListBinding.inflate( LayoutInflater.from(context), parent, false)
+        return ViewHolder(view)
     }
 
-    override fun getItemCount(): Int {
-        return list.count()
-    }
+    override fun getItemCount(): Int = data.size
 
-    override fun onBindViewHolder(holder: ListItemViewHolder, position: Int) {
-        holder.bind(list[position], position)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(data[position], position)
     }
 
 }
