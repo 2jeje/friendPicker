@@ -10,14 +10,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jeje.friendpicker.databinding.ItemDataListBinding
 
 class FriendPickerAdapter(private val context : Context) : RecyclerView.Adapter<FriendPickerAdapter.ViewHolder>() {
-    var data = listOf<TestData>()
+    var data = listOf<Friend>()
 
     inner class ViewHolder(val binding : ItemDataListBinding): RecyclerView.ViewHolder(binding.root) {
         // onBindViewHolder의 역할을 대신한다.
-        fun bind(data: TestData, position: Int) {
+        fun bind(data: Friend, position: Int) {
             Log.d("ListAdapter", "===== ===== ===== ===== bind ===== ===== ===== =====")
-            Log.d("ListAdapter", data.data1+" "+data.data2+" "+data.data3)
-            binding.data = data
+            //Log.d("ListAdapter", data.data1+" "+data.data2+" "+data.data3)
+            binding.friend = data
         }
     }
 
