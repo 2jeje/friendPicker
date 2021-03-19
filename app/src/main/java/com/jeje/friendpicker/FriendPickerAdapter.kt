@@ -13,27 +13,15 @@ import com.jeje.friendpicker.databinding.ItemDataListBinding
 
 class FriendPickerAdapter(private val context : Context) : RecyclerView.Adapter<FriendPickerAdapter.ViewHolder>() {
     var friends = listOf<Friend>()
-    var checkedPos = -1
 
     inner class ViewHolder(val binding : ItemDataListBinding): RecyclerView.ViewHolder(binding.root) {
-        // onBindViewHolder의 역할을 대신한다.
         fun bind(data: Friend, position: Int) {
             binding.friend = data
-
-//            itemView.setOnClickListener(View.OnClickListener {
-//                val pos = adapterPosition
-//                if (pos != RecyclerView.NO_POSITION) {
-//                    val friend = friends[pos]
-//                    friend.checked = true
-//                    binding.checkBox.isChecked = false
-//
-//                }
-//            })
-
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        Log.d("jeje", "FriendPickerAdapter::onCreateViewHolder")
         val view = ItemDataListBinding.inflate( LayoutInflater.from(context), parent, false)
         return ViewHolder(view)
     }
@@ -41,15 +29,11 @@ class FriendPickerAdapter(private val context : Context) : RecyclerView.Adapter<
     override fun getItemCount(): Int = friends.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
         holder.bind(friends[position], position)
 
-        if (checkedPos == position) {
-            holder.binding.checkBox.setButtonDrawable(R.drawable.daynight_friends_picker_checkbox)
-        }
 
         holder.itemView.setOnClickListener(View.OnClickListener {
-            Log.d("jeje", "check ${holder.binding.checkBox.isChecked} pos ${checkedPos}")
+            Log.d("jeje", "check ${holder.binding.checkBox.isChecked} ")
                 val pos = holder.adapterPosition
                 if (pos != RecyclerView.NO_POSITION) {
                     val friend = friends[pos]
