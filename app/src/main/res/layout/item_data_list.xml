@@ -26,9 +26,12 @@
 
         <ImageView
             android:id="@+id/profileImage"
-            android:layout_width="59dp"
-            android:layout_height="57dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
+            android:contentDescription="@null"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_friendslist_notfriend"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             app:imageUri="@{friend.profileImage}"
@@ -49,16 +52,20 @@
             app:layout_constraintStart_toEndOf="@+id/profileImage"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <CheckBox
+        <androidx.appcompat.widget.AppCompatRadioButton
             android:id="@+id/checkBox"
-            android:layout_width="30dp"
-            android:layout_height="32dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:button="@drawable/daynight_friends_picker_checkbox"
+            android:clickable="false"
+            android:focusable="false"
             android:layout_marginTop="17dp"
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="18dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

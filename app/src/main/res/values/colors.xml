@@ -7,4 +7,124 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+
+    <color name="daynight_chatroom_input_bar_action_icon_normal_tint_color">#90949C</color>
+    <color name="daynight_chatroom_input_bar_action_icon_selected_tint_color">#4C4C4C</color>
+    <color name="daynight_chatroom_input_bar_action_icon_disable_tint_color">#DBDDDF</color>
+
+    <color name="thma11y_action_bar_title_font_color">#191919</color>
+    <color name="thma11y_chat_tool_text_color">#999999</color>
+
+
+    <!-- todo: daynight_로 추후 수정 -->
+    <color name="navigation_icon_tint_color">#000000</color>
+    <color name="navigation_text_color">@color/black</color>
+
+
+    <!-- 디자인에서 정의한 daynight 컬러칩 시작 -->
+    <color name="daynight_gray900s">@color/dayonly_gray900s</color>
+    <color name="daynight_gray800s">@color/dayonly_gray800s</color>
+    <color name="daynight_gray700s">@color/dayonly_gray700s</color>
+    <color name="daynight_gray600s">@color/dayonly_gray600s</color>
+    <color name="daynight_gray550s">@color/dayonly_gray550s</color>
+    <color name="daynight_gray500s">@color/dayonly_gray500s</color>
+    <color name="daynight_gray400s">@color/dayonly_gray400s</color>
+    <color name="daynight_gray300a">@color/dayonly_gray300a</color> <!-- 000000, 20% -->
+    <color name="daynight_gray300s">@color/dayonly_gray300s</color>
+    <color name="daynight_gray200a">@color/dayonly_gray200a</color> <!-- 000000, 14% -->
+    <color name="daynight_gray150a">@color/dayonly_gray150a</color> <!-- 000000, 12% -->
+    <color name="daynight_gray120a">@color/dayonly_gray120a</color> <!-- 000000, 10% -->
+    <color name="daynight_gray100a">@color/dayonly_gray100a</color> <!-- 000000, 8% -->
+    <color name="daynight_gray070a">@color/dayonly_gray070a</color> <!-- 000000, 6% -->
+    <color name="daynight_gray070s">@color/dayonly_gray070s</color>
+    <color name="daynight_gray050a">@color/dayonly_gray050a</color> <!-- 000000, 4% -->
+    <color name="daynight_gray050s">@color/dayonly_gray050s</color>
+    <color name="daynight_gray000a">@color/dayonly_gray000a</color> <!-- 000000, 2% -->
+    <color name="daynight_gray000s">@color/dayonly_gray000s</color>
+
+    <color name="daynight_white000s">@color/dayonly_white000s</color>
+    <color name="daynight_white001s">@color/dayonly_white001s</color>
+    <color name="daynight_white002s">@color/dayonly_white002s</color>
+    <color name="daynight_gray001s">@color/dayonly_gray001s</color>
+
+    <color name="daynight_blue300s">@color/dayonly_blue300s</color>
+    <color name="daynight_green500s">@color/dayonly_green500s</color>
+    <!-- 디자인에서 정의한 daynight 컬러칩 끝 -->
+
+
+    <color name="dayonly_gray900s">#191919</color>
+    <color name="dayonly_gray800s">#4C4C4C</color>
+    <color name="dayonly_gray700s">#666666</color>
+    <color name="dayonly_gray600s">#7F7F7F</color>
+    <color name="dayonly_gray550s">#8E8E8E</color>
+    <color name="dayonly_gray500s">#999999</color>
+    <color name="dayonly_gray400s">#B2B2B2</color>
+    <color name="dayonly_gray300a">#33000000</color> <!-- 000000, 20% -->
+    <color name="dayonly_gray300s">#CCCCCC</color>
+    <color name="dayonly_gray200a">#24000000</color> <!-- 000000, 14% -->
+    <color name="dayonly_gray150a">#1F000000</color> <!-- 000000, 12% -->
+    <color name="dayonly_gray120a">#1A000000</color> <!-- 000000, 10% -->
+    <color name="dayonly_gray100a">#14000000</color> <!-- 000000, 8% -->
+    <color name="dayonly_gray070a">#0F000000</color> <!-- 000000, 6% -->
+    <color name="dayonly_gray070s">#F0F0F0</color>
+    <color name="dayonly_gray050a">#0A000000</color> <!-- 000000, 4% -->
+    <color name="dayonly_gray050s">#F5F5F5</color>
+    <color name="dayonly_gray000a">#05000000</color> <!-- 000000, 2% -->
+    <color name="dayonly_gray000s">#FAFAFA</color>
+
+    <color name="dayonly_white000s">#FFFFFF</color>
+    <color name="dayonly_white001s">#FFFFFF</color>
+    <color name="dayonly_white002s">#FFFFFF</color>
+    <color name="dayonly_gray001s">#FAFAFA</color>
+    <color name="dayonly_blue500s">#2C88DE</color>
+    <color name="dayonly_blue300s">#B2C7D9</color>
+    <color name="dayonly_green500s">#00CD3C</color>
+
+
+    <!-- 커스텀 테마 요소는 아니지만, 다크테마에 반영되어야 하는 색 정의 -->
+    <color name="daynight_splash_background">#FAE100</color>
+    <color name="daynight_toolbar_title_count">#66191919</color>
+    <color name="daynight_actionbar_tint_color">@color/daynight_gray900s</color>
+    <color name="daynight_actionbar_popupmenu_bg_color">@color/daynight_white001s</color>
+
+    <color name="daynight_pattern_lock_dot_color">@color/daynight_gray800s</color>
+    <color name="daynight_pattern_lock_dot_disabled_color">@color/daynight_gray500s</color>
+
+    <color name="daynight_sharp_search_layout_bg_color">#F2FFFFFF</color>
+
+
+    <color name="daynight_music_noti_bg">#fafafa</color>
+
+    <!-- 이모티콘 관련 영역, 색 정의 -->
+    <color name="daynight_emoticon_ministore_bg">#ffffff</color>
+
+    <!-- 19 버전 임시 컬러. minSDK 21 되면 삭제-->
+    <color name="setting_bg_info_pressed">#f0f0f0</color>
+
+    <!-- 4% 리플 오버레이 값 -->
+    <color name="daynight_ripple_color">#0A000000</color>
+
+    <color name="daynight_chat_member_mentions_popup_background">@android:color/white</color>
+    <color name="daynight_chat_member_mentions_item_name_text_color">@android:color/black</color>
+
+    <color name="daynight_media_editor_tool_bg_color">#E6FFFFFF</color>
+    <color name="daynight_video_editor_size_bg_color">#80FFFFFF</color>
+    <color name="daynight_video_editor_trim_dim_color">#80FFFFFF</color>
+
+    <color name="daynight_shape_frame_mask_color">#CCFFFFFF</color>
+
+
+
+    <color name="transparent">#00000000</color>
+
+    <!-- point color -->
+    <color name="yellow500s">#FEE500</color> <!-- 공통 과업버튼 -->
+    <color name="yellow550s">#FBDD0D</color> <!-- 라디오, 체크버튼 -->
+    <color name="yellow600s">#F4DC00</color> <!-- 공통 과업 pressed 버튼 -->
+    <color name="red500s">#E65F3E</color>    <!-- 강조 컬러 -->
+    <color name="blue500s">#2C88DE</color>   <!-- 강조 컬러 -->
+    <color name="blue500s20">#332C88DE</color>   <!-- 강조 컬러 -->
+    <!-- End of point color -->
+
 </resources>
