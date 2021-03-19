@@ -18,6 +18,7 @@ class FriendPickerAdapter(private val context : Context) : RecyclerView.Adapter<
             Log.d("ListAdapter", "===== ===== ===== ===== bind ===== ===== ===== =====")
             //Log.d("ListAdapter", data.data1+" "+data.data2+" "+data.data3)
             binding.friend = data
+
         }
     }
 
@@ -30,6 +31,19 @@ class FriendPickerAdapter(private val context : Context) : RecyclerView.Adapter<
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(data[position], position)
+
+        holder.binding.checkBox.setOnClickListener(View.OnClickListener {
+                Log.d("jeje", "check ${holder.binding.checkBox.isChecked}")
+                if (holder.binding.checkBox.isChecked) {
+                    holder.binding.checkBox.setButtonDrawable(R.drawable.daynight_uncheck_n)
+                    holder.binding.checkBox.isChecked = false
+
+                }
+                else {
+                    holder.binding.checkBox.setButtonDrawable(R.drawable.daynight_friends_picker_checkbox)
+                    holder.binding.checkBox.isChecked = true
+                }
+            })
     }
 
 }

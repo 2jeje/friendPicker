@@ -55,14 +55,10 @@ class FriendPickerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        var list: ArrayList<Friend> = requireActivity().intent!!.extras!!.get("DataList") as ArrayList<Friend>
-//        Log.e("FirstFragment", "Data List: ${list}")
-
         pickerAdapter = FriendPickerAdapter(context!!)
         recyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         recyclerView.adapter = pickerAdapter
 
-        Log.d("jeje", "friendsForPartner")
         TalkApiClient.instance.friendsForPartner { friends, error ->
             if (error != null) {
                 Log.i("jeje", "${error}")
