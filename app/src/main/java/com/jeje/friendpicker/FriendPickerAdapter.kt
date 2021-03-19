@@ -12,13 +12,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jeje.friendpicker.databinding.ItemDataListBinding
 
 class FriendPickerAdapter(private val context : Context) : RecyclerView.Adapter<FriendPickerAdapter.ViewHolder>() {
-    var data = listOf<Friend>()
+    var friends = listOf<Friend>()
     var checkedPos = -1
 
     inner class ViewHolder(val binding : ItemDataListBinding): RecyclerView.ViewHolder(binding.root) {
         // onBindViewHolder의 역할을 대신한다.
         fun bind(data: Friend, position: Int) {
             binding.friend = data
+
+//            itemView.setOnClickListener(View.OnClickListener {
+//                val pos = adapterPosition
+//                if (pos != RecyclerView.NO_POSITION) {
+//                    val friend = friends[pos]
+//                    friend.checked = true
+//                    binding.checkBox.isChecked = false
+//
+//                }
+//            })
 
         }
     }
@@ -28,27 +38,32 @@ class FriendPickerAdapter(private val context : Context) : RecyclerView.Adapter<
         return ViewHolder(view)
     }
 
-    override fun getItemCount(): Int = data.size
+    override fun getItemCount(): Int = friends.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        holder.bind(data[position], position)
+        holder.bind(friends[position], position)
 
         if (checkedPos == position) {
             holder.binding.checkBox.setButtonDrawable(R.drawable.daynight_friends_picker_checkbox)
         }
 
-        holder.binding.checkBox.setOnClickListener(View.OnClickListener { view ->
-                Log.d("jeje", "check ${holder.binding.checkBox.isChecked} pos ${checkedPos}")
-                if (position == checkedPos) {
-                    holder.binding.checkBox.isChecked = false
-                    checkedPos = -1
+        holder.itemView.setOnClickListener(View.OnClickListener {
+            Log.d("jeje", "check ${holder.binding.checkBox.isChecked} pos ${checkedPos}")
+                val pos = holder.adapterPosition
+                if (pos != RecyclerView.NO_POSITION) {
+                    val friend = friends[pos]
+                    if (friend.checked) {
+                        friend.checked = false
+                        holder.binding.checkBox.isChecked = false
+                    }
+                    else {
+                        friend.checked = true
+                        holder.binding.checkBox.isChecked = true
+                    }
                 }
-                else {
-                    holder.binding.checkBox.isChecked = true
-                    checkedPos = position
-                }
-            })
+        })
+
     }
 
 }

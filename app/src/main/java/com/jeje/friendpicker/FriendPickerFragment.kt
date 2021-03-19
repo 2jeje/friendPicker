@@ -56,7 +56,7 @@ class FriendPickerFragment : Fragment() {
                     }
                 }
 
-                pickerAdapter.data = dataList
+                pickerAdapter.friends = dataList
                 pickerAdapter.notifyDataSetChanged()
             }
         }
@@ -66,7 +66,8 @@ class FriendPickerFragment : Fragment() {
 
 data class Friend(
     var profileImage: String? = null,
-    var nickName: String? = null
+    var nickName: String? = null,
+    var checked : Boolean = false
 ){
     object Bind {
         @JvmStatic
@@ -75,10 +76,6 @@ data class Friend(
             if (imageUri.isNullOrEmpty() == false) {
                 Picasso.get().load(imageUri).into(imageView)
             }
-            else {
-
-            }
-
         }
     }
 }
