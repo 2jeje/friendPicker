@@ -75,6 +75,9 @@ data class Friend(
             if (imageUri.isNullOrEmpty() == false) {
                 Picasso.get().load(imageUri).into(imageView)
             }
+            else {
+
+            }
 
         }
     }

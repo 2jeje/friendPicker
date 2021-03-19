@@ -13,14 +13,11 @@ import com.jeje.friendpicker.databinding.ItemDataListBinding
 
 class FriendPickerAdapter(private val context : Context) : RecyclerView.Adapter<FriendPickerAdapter.ViewHolder>() {
     var data = listOf<Friend>()
-
     var checkedPos = -1
 
     inner class ViewHolder(val binding : ItemDataListBinding): RecyclerView.ViewHolder(binding.root) {
         // onBindViewHolder의 역할을 대신한다.
         fun bind(data: Friend, position: Int) {
-            Log.d("ListAdapter", "===== ===== ===== ===== bind ===== ===== ===== =====")
-            //Log.d("ListAdapter", data.data1+" "+data.data2+" "+data.data3)
             binding.friend = data
 
         }
@@ -42,7 +39,7 @@ class FriendPickerAdapter(private val context : Context) : RecyclerView.Adapter<
         }
 
         holder.binding.checkBox.setOnClickListener(View.OnClickListener { view ->
-                Log.d("jeje", "check ${holder.binding.checkBox.isChecked}")
+                Log.d("jeje", "check ${holder.binding.checkBox.isChecked} pos ${checkedPos}")
                 if (position == checkedPos) {
                     holder.binding.checkBox.isChecked = false
                     checkedPos = -1
