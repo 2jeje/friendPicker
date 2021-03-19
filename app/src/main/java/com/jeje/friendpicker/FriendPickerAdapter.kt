@@ -44,11 +44,11 @@ class FriendPickerAdapter(private val context : Context) : RecyclerView.Adapter<
         holder.binding.checkBox.setOnClickListener(View.OnClickListener { view ->
                 Log.d("jeje", "check ${holder.binding.checkBox.isChecked}")
                 if (position == checkedPos) {
-                    holder.binding.checkBox.setButtonDrawable(R.drawable.daynight_uncheck_n)
+                    holder.binding.checkBox.isChecked = false
                     checkedPos = -1
                 }
                 else {
-                    (view as RadioButton).setButtonDrawable(R.drawable.daynight_friends_picker_checkbox)
+                    holder.binding.checkBox.isChecked = true
                     checkedPos = position
                 }
             })

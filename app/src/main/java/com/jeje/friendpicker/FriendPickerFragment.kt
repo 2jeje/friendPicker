@@ -28,23 +28,7 @@ class FriendPickerFragment : Fragment() {
     // RecyclerView.adapter에 지정할 Adapter
     private lateinit var pickerAdapter: FriendPickerAdapter
 
-    var dataList: ArrayList<Friend> = arrayListOf(
-        Friend("https://img.hankyung.com/photo/201903/AA.19067065.1.jpg", "Ryan"),
-        Friend("https://img.hankyung.com/photo/201903/AA.19067065.1.jpg", "Ryan"),
-        Friend("https://img.hankyung.com/photo/201903/AA.19067065.1.jpg", "Ryan"),
-        Friend("https://img.hankyung.com/photo/201903/AA.19067065.1.jpg", "Ryan"),
-        Friend("https://img.hankyung.com/photo/201903/AA.19067065.1.jpg", "Ryan"),
-        Friend("https://img.hankyung.com/photo/201903/AA.19067065.1.jpg", "Ryan"),
-        Friend("https://img.hankyung.com/photo/201903/AA.19067065.1.jpg", "Ryan"),
-        Friend("https://img.hankyung.com/photo/201903/AA.19067065.1.jpg", "Ryan"),
-        Friend("https://img.hankyung.com/photo/201903/AA.19067065.1.jpg", "Ryan"),
-        Friend("https://img.hankyung.com/photo/201903/AA.19067065.1.jpg", "Ryan"),
-        Friend("https://img.hankyung.com/photo/201903/AA.19067065.1.jpg", "Ryan"),
-        Friend("https://img.hankyung.com/photo/201903/AA.19067065.1.jpg", "Ryan"),
-        Friend("https://img.hankyung.com/photo/201903/AA.19067065.1.jpg", "Ryan"),
-        Friend("https://img.hankyung.com/photo/201903/AA.19067065.1.jpg", "Ryan")
-    )
-
+    var dataList: ArrayList<Friend> = arrayListOf()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
