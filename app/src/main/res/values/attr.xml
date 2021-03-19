@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="SquircleBorderImageView">
+        <attr name="squircle_fillColor" format="color|reference" />
+        <attr name="squircle_borderColor" format="color|reference" />
+        <attr name="squircle_borderWidth" format="integer|dimension|reference" />
+    </declare-styleable>
+
+</resources>

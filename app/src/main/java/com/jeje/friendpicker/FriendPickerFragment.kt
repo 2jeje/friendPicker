@@ -55,7 +55,6 @@ class FriendPickerFragment : Fragment() {
                         dataList.add(Friend(profileImage = friend.profileThumbnailImage, nickName = friend.profileNickname))
                     }
                 }
-
                 pickerAdapter.friends = dataList
                 pickerAdapter.notifyDataSetChanged()
             }
