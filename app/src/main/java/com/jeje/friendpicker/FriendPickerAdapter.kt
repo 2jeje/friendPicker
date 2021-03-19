@@ -5,12 +5,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
+import android.widget.RadioButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.jeje.friendpicker.databinding.ItemDataListBinding
 
 class FriendPickerAdapter(private val context : Context) : RecyclerView.Adapter<FriendPickerAdapter.ViewHolder>() {
     var data = listOf<Friend>()
+
+    var checkedPos = -1
 
     inner class ViewHolder(val binding : ItemDataListBinding): RecyclerView.ViewHolder(binding.root) {
         // onBindViewHolder의 역할을 대신한다.
@@ -30,18 +34,22 @@ class FriendPickerAdapter(private val context : Context) : RecyclerView.Adapter<
     override fun getItemCount(): Int = data.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
         holder.bind(data[position], position)
 
-        holder.binding.checkBox.setOnClickListener(View.OnClickListener {
-                Log.d("jeje", "check ${holder.binding.checkBox.isChecked}")
-                if (holder.binding.checkBox.isChecked) {
-                    holder.binding.checkBox.setButtonDrawable(R.drawable.daynight_uncheck_n)
-                    holder.binding.checkBox.isChecked = false
+        if (checkedPos == position) {
+            holder.binding.checkBox.setButtonDrawable(R.drawable.daynight_friends_picker_checkbox)
+        }
 
+        holder.binding.checkBox.setOnClickListener(View.OnClickListener { view ->
+                Log.d("jeje", "check ${holder.binding.checkBox.isChecked}")
+                if (position == checkedPos) {
+                    holder.binding.checkBox.setButtonDrawable(R.drawable.daynight_uncheck_n)
+                    checkedPos = -1
                 }
                 else {
-                    holder.binding.checkBox.setButtonDrawable(R.drawable.daynight_friends_picker_checkbox)
-                    holder.binding.checkBox.isChecked = true
+                    (view as RadioButton).setButtonDrawable(R.drawable.daynight_friends_picker_checkbox)
+                    checkedPos = position
                 }
             })
     }
