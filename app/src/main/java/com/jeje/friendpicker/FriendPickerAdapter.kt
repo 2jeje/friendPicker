@@ -13,7 +13,7 @@ import com.jeje.friendpicker.databinding.ItemDataListBinding
 import kotlinx.android.synthetic.main.fragment_friend_picker.*
 
 class FriendPickerAdapter(private val context : Context, private val selectedAdapter: FriendSelectedAdapter, private val selectedView : View) : RecyclerView.Adapter<FriendPickerAdapter.ViewHolder>() {
-    var friends = listOf<Friend>()
+    var friends = mutableListOf<Friend>()
 
     inner class ViewHolder(val binding : ItemDataListBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(data: Friend, position: Int) {
@@ -38,13 +38,12 @@ class FriendPickerAdapter(private val context : Context, private val selectedAda
                     if (friend.checked) {
                         friend.checked = false
                         holder.binding.checkBox.isChecked = false
+                        
+                        selectedAdapter.selectedFriends = selectedAdapter.selectedFriends.filterIndexed { index, selected ->
+                            selected.profileImage != friend.profileImage
+                        }.toMutableList()
 
-                        for ( selectedFriend in selectedAdapter.selectedFriends) {
-                            if (selectedFriend.nickName == friend.nickName && selectedFriend.profileImage == friend.profileImage) {
-                                selectedAdapter.selectedFriends.remove(selectedFriend)
-                                selectedAdapter.notifyDataSetChanged()
-                            }
-                        }
+                        selectedAdapter.notifyDataSetChanged()
 
                         if (selectedAdapter.selectedFriends.size <= 0) {
                             selectedView.visibility = View.GONE
@@ -54,8 +53,8 @@ class FriendPickerAdapter(private val context : Context, private val selectedAda
                         friend.checked = true
                         holder.binding.checkBox.isChecked = true
 
-                        selectedAdapter.selectedFriends.add(friend)
-                        selectedAdapter.notifyItemChanged(selectedAdapter.itemCount - 1)
+                        selectedAdapter.selectedFriends.add(0,friend)
+                        selectedAdapter.notifyDataSetChanged()
                         selectedView.visibility = View.VISIBLE
                     }
                 }
