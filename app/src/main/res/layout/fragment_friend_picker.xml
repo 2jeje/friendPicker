@@ -20,11 +20,27 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@+id/friends_view"
+            app:layout_constraintBottom_toTopOf="@+id/search_bar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/selected_friend_list" />
+
+        <EditText
+            android:id="@+id/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/daynight_gray100a"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/selected_friends_view"
+            app:layout_constraintBottom_toTopOf="@id/friends_view"
+            />
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/friends_view"
@@ -33,7 +49,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/selected_friends_view"
+            app:layout_constraintTop_toBottomOf="@id/search_bar"
             tools:listitem="@layout/item_data_list" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

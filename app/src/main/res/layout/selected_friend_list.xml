@@ -13,7 +13,7 @@
         android:id="@+id/storeItemLayout"
         android:layout_width="wrap_content"
         android:orientation="vertical"
-        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_height="wrap_content">
 
         <com.jeje.friendpicker.SquircleImageView
@@ -33,9 +33,7 @@
             android:text="라이언"
             android:textSize="6pt"
             android:textAlignment="center"
-            app:nickName="@{friend.nickName}"
-            tools:layout_editor_absoluteX="5dp"
-            tools:layout_editor_absoluteY="34dp" />
+            app:nickName="@{friend.nickName}" />
 
     </LinearLayout>
 
