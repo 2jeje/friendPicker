@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="라이언"
-            android:textSize="12dp"
+            android:textSize="6pt"
             android:textAlignment="center"
             app:nickName="@{friend.nickName}"
             tools:layout_editor_absoluteX="5dp"
