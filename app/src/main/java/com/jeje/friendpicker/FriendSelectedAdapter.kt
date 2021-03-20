@@ -21,7 +21,6 @@ class FriendSelectedAdapter(private val context : Context) : RecyclerView.Adapte
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = SelectedFriendListBinding.inflate( LayoutInflater.from(context), parent, false)
 
-        view.profileImage.setImageResource(R.mipmap.ic_launcher)
 
         return ViewHolder(view)
     }

@@ -82,6 +82,9 @@ data class Friend(
             if (imageUri.isNullOrEmpty() == false) {
                 Picasso.get().load(imageUri).into(imageView)
             }
+            else {
+                imageView.setImageResource(R.mipmap.ic_launcher)
+            }
         }
 
         @JvmStatic
