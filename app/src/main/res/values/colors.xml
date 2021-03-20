@@ -7,7 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-
+    <color name="kakao_yellow">#FEE500</color> <!-- primary color, use to button -->
 
     <color name="daynight_chatroom_input_bar_action_icon_normal_tint_color">#90949C</color>
     <color name="daynight_chatroom_input_bar_action_icon_selected_tint_color">#4C4C4C</color>
