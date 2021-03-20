@@ -25,8 +25,8 @@ import kotlinx.android.synthetic.main.fragment_friend_picker.*
  */
 class FriendPickerFragment : Fragment() {
 
-    // RecyclerView.adapter에 지정할 Adapter
     private lateinit var pickerAdapter: FriendPickerAdapter
+    private lateinit var selectedAdapter: FriendSelectedAdapter
 
     var dataList: ArrayList<Friend> = arrayListOf()
     override fun onCreateView(
@@ -42,6 +42,10 @@ class FriendPickerFragment : Fragment() {
         pickerAdapter = FriendPickerAdapter(context!!)
         friends_view.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         friends_view.adapter = pickerAdapter
+
+        selectedAdapter = FriendSelectedAdapter(context!!)
+        selected_friends_view.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
+        selected_friends_view.adapter = selectedAdapter
 
         TalkApiClient.instance.friendsForPartner { friends, error ->
             if (error != null) {
@@ -60,7 +64,6 @@ class FriendPickerFragment : Fragment() {
             }
         }
     }
-
 }
 
 data class Friend(

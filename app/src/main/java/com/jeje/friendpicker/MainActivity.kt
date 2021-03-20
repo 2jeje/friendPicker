@@ -12,22 +12,7 @@ import com.kakao.sdk.user.UserApiClient
 import kotlinx.android.synthetic.main.activity_main.*
 
   class MainActivity : AppCompatActivity() {
-      var dataList: ArrayList<Friend> = arrayListOf(
-          Friend("https://img.hankyung.com/photo/201903/AA.19067065.1.jpg", "Ryan"),
-          Friend("https://img.hankyung.com/photo/201903/AA.19067065.1.jpg", "Ryan"),
-          Friend("https://img.hankyung.com/photo/201903/AA.19067065.1.jpg", "Ryan"),
-          Friend("https://img.hankyung.com/photo/201903/AA.19067065.1.jpg", "Ryan"),
-          Friend("https://img.hankyung.com/photo/201903/AA.19067065.1.jpg", "Ryan"),
-          Friend("https://img.hankyung.com/photo/201903/AA.19067065.1.jpg", "Ryan"),
-          Friend("https://img.hankyung.com/photo/201903/AA.19067065.1.jpg", "Ryan"),
-          Friend("https://img.hankyung.com/photo/201903/AA.19067065.1.jpg", "Ryan"),
-          Friend("https://img.hankyung.com/photo/201903/AA.19067065.1.jpg", "Ryan"),
-          Friend("https://img.hankyung.com/photo/201903/AA.19067065.1.jpg", "Ryan"),
-          Friend("https://img.hankyung.com/photo/201903/AA.19067065.1.jpg", "Ryan"),
-          Friend("https://img.hankyung.com/photo/201903/AA.19067065.1.jpg", "Ryan"),
-          Friend("https://img.hankyung.com/photo/201903/AA.19067065.1.jpg", "Ryan"),
-          Friend("https://img.hankyung.com/photo/201903/AA.19067065.1.jpg", "Ryan")
-      )
+
 
       override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +43,6 @@ import kotlinx.android.synthetic.main.activity_main.*
                 FriendPickerFragment()
             )
             transaction.commit()
-            intent.putExtra("DataList", dataList)
         })
     }
 }
