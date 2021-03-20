@@ -39,13 +39,15 @@ class FriendPickerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        pickerAdapter = FriendPickerAdapter(context!!)
-        friends_view.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-        friends_view.adapter = pickerAdapter
-
         selectedAdapter = FriendSelectedAdapter(context!!)
         selected_friends_view.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
         selected_friends_view.adapter = selectedAdapter
+
+        pickerAdapter = FriendPickerAdapter(context!!, selectedAdapter)
+        friends_view.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+        friends_view.adapter = pickerAdapter
+
+
 
         TalkApiClient.instance.friendsForPartner { friends, error ->
             if (error != null) {

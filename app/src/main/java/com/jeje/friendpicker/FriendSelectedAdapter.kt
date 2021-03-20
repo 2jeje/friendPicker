@@ -6,18 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jeje.friendpicker.databinding.ItemDataListBinding
+import com.jeje.friendpicker.databinding.SelectedFriendListBinding
 
 class FriendSelectedAdapter(private val context : Context) : RecyclerView.Adapter<FriendSelectedAdapter.ViewHolder>() {
-    var selectedFriends = listOf<Friend>()
+    var selectedFriends = mutableListOf<Friend>()
 
-    inner class ViewHolder(val binding : ItemDataListBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(val binding : SelectedFriendListBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(data: Friend, position: Int) {
             binding.friend = data
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = ItemDataListBinding.inflate( LayoutInflater.from(context), parent, false)
+        val view = SelectedFriendListBinding.inflate( LayoutInflater.from(context), parent, false)
         return ViewHolder(view)
     }
 

@@ -11,8 +11,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.jeje.friendpicker.databinding.ItemDataListBinding
 
-class FriendPickerAdapter(private val context : Context) : RecyclerView.Adapter<FriendPickerAdapter.ViewHolder>() {
+class FriendPickerAdapter(private val context : Context, private val selectedAdapter: FriendSelectedAdapter) : RecyclerView.Adapter<FriendPickerAdapter.ViewHolder>() {
     var friends = listOf<Friend>()
+
+
 
     inner class ViewHolder(val binding : ItemDataListBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(data: Friend, position: Int) {
@@ -41,6 +43,10 @@ class FriendPickerAdapter(private val context : Context) : RecyclerView.Adapter<
                     else {
                         friend.checked = true
                         holder.binding.checkBox.isChecked = true
+
+                        selectedAdapter.selectedFriends.add(friend)
+                        selectedAdapter.notifyDataSetChanged()
+
                     }
                 }
         })
