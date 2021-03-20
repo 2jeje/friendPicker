@@ -20,24 +20,11 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@+id/friend_tag"
+            app:layout_constraintBottom_toTopOf="@+id/friends_view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/selected_friend_list" />
-
-        <TextView
-            android:id="@+id/friend_tag"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="친구"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="15dp"
-            android:layout_marginLeft="15dp"
-            android:textSize="6pt"
-            app:layout_constraintTop_toBottomOf="@id/selected_friends_view"
-            android:textAlignment="viewStart" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/friends_view"
@@ -46,7 +33,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/friend_tag"
+            app:layout_constraintTop_toBottomOf="@id/selected_friends_view"
             tools:listitem="@layout/item_data_list" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

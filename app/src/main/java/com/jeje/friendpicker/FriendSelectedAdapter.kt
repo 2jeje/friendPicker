@@ -2,12 +2,9 @@ package com.jeje.friendpicker
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.jeje.friendpicker.databinding.ItemDataListBinding
 import com.jeje.friendpicker.databinding.SelectedFriendListBinding
-import java.util.*
 
 class FriendSelectedAdapter(private val context : Context) : RecyclerView.Adapter<FriendSelectedAdapter.ViewHolder>() {
     var selectedFriends = mutableListOf<Friend>()
