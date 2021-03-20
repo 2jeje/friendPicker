@@ -40,8 +40,8 @@ class FriendPickerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         pickerAdapter = FriendPickerAdapter(context!!)
-        recyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-        recyclerView.adapter = pickerAdapter
+        friends_view.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+        friends_view.adapter = pickerAdapter
 
         TalkApiClient.instance.friendsForPartner { friends, error ->
             if (error != null) {

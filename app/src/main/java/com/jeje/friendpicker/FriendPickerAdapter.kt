@@ -21,7 +21,6 @@ class FriendPickerAdapter(private val context : Context) : RecyclerView.Adapter<
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        Log.d("jeje", "FriendPickerAdapter::onCreateViewHolder")
         val view = ItemDataListBinding.inflate( LayoutInflater.from(context), parent, false)
         return ViewHolder(view)
     }
@@ -31,9 +30,7 @@ class FriendPickerAdapter(private val context : Context) : RecyclerView.Adapter<
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(friends[position], position)
 
-
         holder.itemView.setOnClickListener(View.OnClickListener {
-            Log.d("jeje", "check ${holder.binding.checkBox.isChecked} ")
                 val pos = holder.adapterPosition
                 if (pos != RecyclerView.NO_POSITION) {
                     val friend = friends[pos]
