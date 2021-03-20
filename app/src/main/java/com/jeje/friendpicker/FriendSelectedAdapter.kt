@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jeje.friendpicker.databinding.ItemDataListBinding
 import com.jeje.friendpicker.databinding.SelectedFriendListBinding
+import java.util.*
 
 class FriendSelectedAdapter(private val context : Context) : RecyclerView.Adapter<FriendSelectedAdapter.ViewHolder>() {
     var selectedFriends = mutableListOf<Friend>()
@@ -19,6 +20,9 @@ class FriendSelectedAdapter(private val context : Context) : RecyclerView.Adapte
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = SelectedFriendListBinding.inflate( LayoutInflater.from(context), parent, false)
+
+        view.profileImage.setImageResource(R.mipmap.ic_launcher)
+
         return ViewHolder(view)
     }
 
