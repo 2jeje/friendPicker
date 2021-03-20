@@ -10,8 +10,9 @@ import android.widget.RadioButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.jeje.friendpicker.databinding.ItemDataListBinding
+import kotlinx.android.synthetic.main.fragment_friend_picker.*
 
-class FriendPickerAdapter(private val context : Context, private val selectedAdapter: FriendSelectedAdapter) : RecyclerView.Adapter<FriendPickerAdapter.ViewHolder>() {
+class FriendPickerAdapter(private val context : Context, private val selectedAdapter: FriendSelectedAdapter, private val selectedView : View) : RecyclerView.Adapter<FriendPickerAdapter.ViewHolder>() {
     var friends = listOf<Friend>()
 
     inner class ViewHolder(val binding : ItemDataListBinding): RecyclerView.ViewHolder(binding.root) {
@@ -37,6 +38,17 @@ class FriendPickerAdapter(private val context : Context, private val selectedAda
                     if (friend.checked) {
                         friend.checked = false
                         holder.binding.checkBox.isChecked = false
+
+                        for ( selectedFriend in selectedAdapter.selectedFriends) {
+                            if (selectedFriend.nickName == friend.nickName && selectedFriend.profileImage == friend.profileImage) {
+                                selectedAdapter.selectedFriends.remove(selectedFriend)
+                                selectedAdapter.notifyDataSetChanged()
+                            }
+                        }
+
+                        if (selectedAdapter.selectedFriends.size <= 0) {
+                            selectedView.visibility = View.GONE
+                        }
                     }
                     else {
                         friend.checked = true
@@ -44,7 +56,7 @@ class FriendPickerAdapter(private val context : Context, private val selectedAda
 
                         selectedAdapter.selectedFriends.add(friend)
                         selectedAdapter.notifyItemChanged(selectedAdapter.itemCount - 1)
-
+                        selectedView.visibility = View.VISIBLE
                     }
                 }
         })
