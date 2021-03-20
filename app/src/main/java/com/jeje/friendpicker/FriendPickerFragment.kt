@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -80,6 +81,12 @@ data class Friend(
             if (imageUri.isNullOrEmpty() == false) {
                 Picasso.get().load(imageUri).into(imageView)
             }
+        }
+
+        @JvmStatic
+        @BindingAdapter("app:nickName")
+        fun setNickName(textView: TextView, nickName: String) {
+            textView.text = nickName
         }
     }
 }

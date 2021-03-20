@@ -14,8 +14,6 @@ import com.jeje.friendpicker.databinding.ItemDataListBinding
 class FriendPickerAdapter(private val context : Context, private val selectedAdapter: FriendSelectedAdapter) : RecyclerView.Adapter<FriendPickerAdapter.ViewHolder>() {
     var friends = listOf<Friend>()
 
-
-
     inner class ViewHolder(val binding : ItemDataListBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(data: Friend, position: Int) {
             binding.friend = data
@@ -45,7 +43,7 @@ class FriendPickerAdapter(private val context : Context, private val selectedAda
                         holder.binding.checkBox.isChecked = true
 
                         selectedAdapter.selectedFriends.add(friend)
-                        selectedAdapter.notifyDataSetChanged()
+                        selectedAdapter.notifyItemChanged(selectedAdapter.itemCount - 1)
 
                     }
                 }
