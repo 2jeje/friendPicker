@@ -36,6 +36,7 @@
             android:layout_marginRight="20dp"
             android:paddingLeft="10dp"
             android:textSize="8pt"
+            android:singleLine="true"
             android:textCursorDrawable="@drawable/bg_cursor"
             android:background="@drawable/bg_round_rect_gray"
             android:hint="이름(초성), 전화번호 검색"
