@@ -17,8 +17,6 @@ class FriendSelectedAdapter(private val context : Context) : RecyclerView.Adapte
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = SelectedFriendListBinding.inflate( LayoutInflater.from(context), parent, false)
-
-
         return ViewHolder(view)
     }
 
@@ -43,5 +41,5 @@ class FriendSelectedAdapter(private val context : Context) : RecyclerView.Adapte
 //        })
 
     }
-
 }
+

@@ -9,12 +9,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.partner.talk.friendsForPartner
 import com.kakao.sdk.talk.TalkApiClient
 import com.squareup.picasso.Picasso
@@ -30,7 +32,7 @@ class FriendPickerFragment : Fragment() {
     private lateinit var pickerAdapter: FriendPickerAdapter
     private lateinit var selectedAdapter: FriendSelectedAdapter
 
-    private  val viewModel : FriendPickerViewModel by viewModels()
+    private val viewModel : FriendPickerViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,32 +48,49 @@ class FriendPickerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         selectedAdapter = FriendSelectedAdapter(requireContext())
         selected_friends_view.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
         selected_friends_view.adapter = selectedAdapter
 
-        selected_friends_view.visibility = View.GONE
-
-        pickerAdapter = FriendPickerAdapter(requireContext(), selectedAdapter, selected_friends_view)
+        pickerAdapter = FriendPickerAdapter(requireContext(), selectedAdapter, selected_friends_view, viewModel)
         friends_view.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         friends_view.adapter = pickerAdapter
 
         viewModel.fetch()
+        Log.i("jeje", "test A")
+        if (viewModel.selectedFriends.value.isNullOrEmpty()) {
+            selected_friends_view.visibility = View.GONE
+            Log.i("jeje", "test B")
+        }
+        else {
+            Log.i("jeje", "test C")
+            viewModel.selectedFriends.value?.let {
+
+                Log.i("jeje", "test D")
+                selected_friends_view.visibility = View.VISIBLE
+
+                selectedAdapter.selectedFriends = viewModel.selectedFriends.value?.let { it } ?: mutableListOf()
+                selectedAdapter.notifyDataSetChanged()
+            }
+        }
     }
 }
 
 class FriendPickerViewModel() : ViewModel() {
     val friends : MutableLiveData<MutableList<Friend>> = MutableLiveData()
+    val selectedFriends : MutableLiveData<MutableList<Friend>> = MutableLiveData()
 
     fun fetch() {
+        if (friends.value != null) {
+            friends.value = friends.value?.toMutableList()
+            return
+        }
+
         TalkApiClient.instance.friendsForPartner { it, error ->
             if (error != null) {
                 Log.i("jeje", "${error}")
             } else {
-                Log.i("jeje", "${it}")
                 if (it != null) {
-                    //friends.value?.clear()
                     friends.value = mutableListOf()
                     for (friend in it.elements) {
                         friends.value?.add(Friend(profileImage = friend.profileThumbnailImage, nickName = friend.profileNickname))
