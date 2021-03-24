@@ -57,18 +57,12 @@ class FriendPickerFragment : Fragment() {
         friends_view.adapter = pickerAdapter
 
         viewModel.fetch()
-        Log.i("jeje", "test A")
         if (viewModel.selectedFriends.value.isNullOrEmpty()) {
             selected_friends_view.visibility = View.GONE
-            Log.i("jeje", "test B")
         }
         else {
-            Log.i("jeje", "test C")
             viewModel.selectedFriends.value?.let {
-
-                Log.i("jeje", "test D")
                 selected_friends_view.visibility = View.VISIBLE
-
                 selectedAdapter.selectedFriends = viewModel.selectedFriends.value?.let { it } ?: mutableListOf()
                 selectedAdapter.notifyDataSetChanged()
             }
