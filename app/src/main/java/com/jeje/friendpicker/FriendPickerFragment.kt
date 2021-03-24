@@ -37,7 +37,7 @@ class FriendPickerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         viewModel.friends.observe(viewLifecycleOwner, Observer {
-            pickerAdapter.friends = viewModel.friends?.let { it.value  }
+            pickerAdapter.friends = viewModel.friends.value?.let { it } ?: mutableListOf()
             pickerAdapter.notifyDataSetChanged()
         })
 
@@ -71,7 +71,8 @@ class FriendPickerViewModel() : ViewModel() {
             } else {
                 Log.i("jeje", "${it}")
                 if (it != null) {
-                    friends.value?.clear()
+                    //friends.value?.clear()
+                    friends.value = mutableListOf()
                     for (friend in it.elements) {
                         friends.value?.add(Friend(profileImage = friend.profileThumbnailImage, nickName = friend.profileNickname))
                         friends.value = friends.value?.toMutableList()
