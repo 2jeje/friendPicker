@@ -15,8 +15,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 
       override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+          super.onCreate(savedInstanceState)
+          setContentView(R.layout.activity_main)
 
 
           KakaoSdk.init(this,"9f9de684c354a72d2eb2a540a11441c2",loggingEnabled = true)
@@ -25,10 +25,10 @@ import kotlinx.android.synthetic.main.activity_main.*
               Log.i("jeje","${token}")
 
           }
-        activityBtn.setOnClickListener(View.OnClickListener {
-            var intent = Intent(this, FriendPickerActivity::class.java)
-            startActivity(intent)
-        })
+          activityBtn.setOnClickListener(View.OnClickListener {
+              var intent = Intent(this, FriendPickerActivity::class.java)
+              startActivity(intent)
+          })
 
 
         dialogBtn.setOnClickListener(View.OnClickListener {

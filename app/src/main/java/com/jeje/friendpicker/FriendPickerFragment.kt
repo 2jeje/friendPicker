@@ -12,6 +12,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -30,45 +35,83 @@ class FriendPickerFragment : Fragment() {
     private lateinit var pickerAdapter: FriendPickerAdapter
     private lateinit var selectedAdapter: FriendSelectedAdapter
 
-    var dataList: ArrayList<Friend> = arrayListOf()
+    private lateinit var viewModel : FriendPickerViewModel// by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(FriendPickerViewModel::class.java)
+
+        viewModel.friends.observe(viewLifecycleOwner, Observer {
+            pickerAdapter.friends = viewModel.friends?.let { it.value  }!!
+            pickerAdapter.notifyDataSetChanged()
+        })
+
         return inflater.inflate(R.layout.fragment_friend_picker, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        selectedAdapter = FriendSelectedAdapter(context!!)
+        selectedAdapter = FriendSelectedAdapter(requireContext())
         selected_friends_view.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
         selected_friends_view.adapter = selectedAdapter
 
         selected_friends_view.visibility = View.GONE
 
-        pickerAdapter = FriendPickerAdapter(context!!, selectedAdapter, selected_friends_view)
+        pickerAdapter = FriendPickerAdapter(requireContext(), selectedAdapter, selected_friends_view)
         friends_view.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         friends_view.adapter = pickerAdapter
 
-        TalkApiClient.instance.friendsForPartner { friends, error ->
+        viewModel.fetch()
+//        TalkApiClient.instance.friendsForPartner { friends, error ->
+//            if (error != null) {
+//                Log.i("jeje", "${error}")
+//
+//            } else {
+//                Log.i("jeje", "${friends}")
+//                if (friends != null) {
+//                   // dataList.clear()
+//                    for (friend in friends.elements) {
+//                       // dataList.add(Friend(profileImage = friend.profileThumbnailImage, nickName = friend.profileNickname))
+//                    }
+//                }
+//                //pickerAdapter.friends = dataList
+//                pickerAdapter.notifyDataSetChanged()
+//            }
+//        }
+    }
+}
+
+
+
+
+class FriendPickerViewModel() : ViewModel() {
+    val friends : MutableLiveData<MutableList<Friend>> = MutableLiveData()
+
+    fun fetch() {
+        Log.i("jeje","fetch")
+      //  FriendRepository.friends()
+        TalkApiClient.instance.friendsForPartner { it, error ->
             if (error != null) {
                 Log.i("jeje", "${error}")
 
             } else {
                 Log.i("jeje", "${friends}")
-                if (friends != null) {
-                    dataList.clear()
-                    for (friend in friends.elements) {
-                        dataList.add(Friend(profileImage = friend.profileThumbnailImage, nickName = friend.profileNickname))
+                if (it != null) {
+                    friends.value?.clear()
+                    for (friend in it.elements) {
+                        friends.value?.add(Friend(profileImage = friend.profileThumbnailImage, nickName = friend.profileNickname))
                     }
                 }
-                pickerAdapter.friends = dataList
-                pickerAdapter.notifyDataSetChanged()
+
             }
         }
     }
 }
+
+
 
 data class Friend(
     var profileImage: String? = null,
