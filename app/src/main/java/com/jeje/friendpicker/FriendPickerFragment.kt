@@ -39,7 +39,6 @@ class FriendPickerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         viewModel.friends.observe(viewLifecycleOwner, Observer {
-            pickerAdapter.friends = viewModel.friends.value?.let { it } ?: mutableListOf()
             pickerAdapter.notifyDataSetChanged()
         })
 
@@ -48,7 +47,7 @@ class FriendPickerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        selectedAdapter = FriendSelectedAdapter(requireContext())
+        selectedAdapter = FriendSelectedAdapter(requireContext(), viewModel)
         selected_friends_view.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
         selected_friends_view.adapter = selectedAdapter
 
@@ -63,7 +62,6 @@ class FriendPickerFragment : Fragment() {
         else {
             viewModel.selectedFriends.value?.let {
                 selected_friends_view.visibility = View.VISIBLE
-                selectedAdapter.selectedFriends = viewModel.selectedFriends.value?.let { it } ?: mutableListOf()
                 selectedAdapter.notifyDataSetChanged()
             }
         }
@@ -72,7 +70,7 @@ class FriendPickerFragment : Fragment() {
 
 class FriendPickerViewModel() : ViewModel() {
     val friends : MutableLiveData<MutableList<Friend>> = MutableLiveData()
-    val selectedFriends : MutableLiveData<MutableList<Friend>> = MutableLiveData()
+    var selectedFriends : MutableLiveData<MutableList<Friend>> = MutableLiveData()
 
     fun fetch() {
         if (friends.value != null) {
@@ -80,7 +78,7 @@ class FriendPickerViewModel() : ViewModel() {
             return
         }
 
-        TalkApiClient.instance.friendsForPartner { it, error ->
+        TalkApiClient.instance.friendsForPartner(limit = 100) { it, error ->
             if (error != null) {
                 Log.i("jeje", "${error}")
             } else {

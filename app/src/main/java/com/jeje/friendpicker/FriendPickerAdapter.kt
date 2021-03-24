@@ -25,7 +25,7 @@ class ItemViewHolder(val binding : ItemDataListBinding): BaseViewHolder(binding.
 }
 
 class FriendPickerAdapter(private val context : Context, private val selectedAdapter: FriendSelectedAdapter, private val selectedView : View, private val viewModel: FriendPickerViewModel) : RecyclerView.Adapter<BaseViewHolder>() {
-    var friends = mutableListOf<Friend>()
+
 
     private val TYPE_HEADER = 0
     private val TYPE_ITEM = 1
@@ -55,46 +55,46 @@ class FriendPickerAdapter(private val context : Context, private val selectedAda
                 else -> TYPE_ITEM
             }
 
-    override fun getItemCount(): Int = friends.size + HEADER_SIZE
+    override fun getItemCount(): Int = (viewModel.friends.value?.size ?: 0) + HEADER_SIZE
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         if (holder is ItemViewHolder) {
 
-            holder.bind(friends[position - HEADER_SIZE])
+            viewModel.friends.value?.get(position - HEADER_SIZE)?.let { holder.bind(it) }
 
-            val friend = friends[position - HEADER_SIZE]
-            holder.binding.checkBox.isChecked = friend.checked
+            val friend = viewModel.friends.value?.get(position - HEADER_SIZE)
+            holder.binding.checkBox.isChecked = friend?.checked ?: false
 
             holder.itemView.setOnClickListener(View.OnClickListener {
 
                 if (holder.adapterPosition != RecyclerView.NO_POSITION) {
                     val pos = holder.adapterPosition  - HEADER_SIZE
 
-                    if (friend.checked) {
-                        friend.checked = false
-                        holder.binding.checkBox.isChecked = false
+                    if (friend != null) {
+                        if (friend.checked) {
+                            friend.checked = false
+                            holder.binding.checkBox.isChecked = false
 
-                        selectedAdapter.selectedFriends = selectedAdapter.selectedFriends.filterIndexed { index, selected ->
-                            selected.profileImage != friend.profileImage && selected.nickName != friend.nickName
-                        }.toMutableList()
+                            viewModel.selectedFriends.value = viewModel.selectedFriends.value?.filterIndexed { index, selected ->
+                                selected.profileImage != friend.profileImage && selected.nickName != friend.nickName
+                            }?.toMutableList()
 
-                        selectedAdapter.notifyDataSetChanged()
+                            selectedAdapter.notifyDataSetChanged()
 
-                        if (selectedAdapter.selectedFriends.size <= 0) {
-                            selectedView.visibility = View.GONE
+                            if (viewModel.selectedFriends.value?.size!! <= 0) {
+                                selectedView.visibility = View.GONE
+                            }
+                        } else {
+                            friend.checked = true
+                            holder.binding.checkBox.isChecked = true
+
+                            if (viewModel.selectedFriends.value.isNullOrEmpty()) {
+                                viewModel.selectedFriends.value = mutableListOf()
+                            }
+                            viewModel.selectedFriends.value?.add(0,friend)
+                            selectedAdapter.notifyDataSetChanged()
+                            selectedView.visibility = View.VISIBLE
                         }
-                    }
-                    else {
-                        friend.checked = true
-                        holder.binding.checkBox.isChecked = true
-
-                        if (viewModel.selectedFriends.value.isNullOrEmpty()) {
-                            viewModel.selectedFriends.value = mutableListOf()
-                        }
-                        selectedAdapter.selectedFriends.add(0, friend)
-                        viewModel.selectedFriends.value?.add(0,friend)
-                        selectedAdapter.notifyDataSetChanged()
-                        selectedView.visibility = View.VISIBLE
                     }
                 }
             })

@@ -6,8 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jeje.friendpicker.databinding.SelectedFriendListBinding
 
-class FriendSelectedAdapter(private val context : Context) : RecyclerView.Adapter<FriendSelectedAdapter.ViewHolder>() {
-    var selectedFriends = mutableListOf<Friend>()
+class FriendSelectedAdapter(private val context : Context, private val viewModel: FriendPickerViewModel) : RecyclerView.Adapter<FriendSelectedAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding : SelectedFriendListBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(data: Friend, position: Int) {
@@ -20,10 +19,10 @@ class FriendSelectedAdapter(private val context : Context) : RecyclerView.Adapte
         return ViewHolder(view)
     }
 
-    override fun getItemCount(): Int = selectedFriends.size
+    override fun getItemCount(): Int = viewModel.selectedFriends.value?.size ?: 0
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(selectedFriends[position], position)
+        viewModel.selectedFriends.value?.get(position)?.let { holder.bind(it, position) }
 
 //        holder.itemView.setOnClickListener(View.OnClickListener {
 //            val pos = holder.adapterPosition
