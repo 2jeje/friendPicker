@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.widget.doOnTextChanged
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -38,8 +39,13 @@ class FriendPickerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         viewModel.friends.observe(viewLifecycleOwner, Observer {
             pickerAdapter.notifyDataSetChanged()
+        })
+
+        viewModel.selectedFriends.observe(viewLifecycleOwner, Observer {
+            selectedAdapter.notifyDataSetChanged()
         })
 
         return inflater.inflate(R.layout.fragment_friend_picker, container, false)
@@ -47,6 +53,15 @@ class FriendPickerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        search_bar.doOnTextChanged { text, start, before, count ->
+            Log.i("jeje", "test ${text} ${start} ${before} ${count}")
+            val friends = viewModel.friends.value
+            if (friends != null) {
+
+            }
+        }
+
         selectedAdapter = FriendSelectedAdapter(requireContext(), viewModel)
         selected_friends_view.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
         selected_friends_view.adapter = selectedAdapter
@@ -62,7 +77,6 @@ class FriendPickerFragment : Fragment() {
         else {
             viewModel.selectedFriends.value?.let {
                 selected_friends_view.visibility = View.VISIBLE
-                selectedAdapter.notifyDataSetChanged()
             }
         }
     }
