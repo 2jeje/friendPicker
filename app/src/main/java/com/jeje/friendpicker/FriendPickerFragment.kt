@@ -55,10 +55,17 @@ class FriendPickerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         search_bar.doOnTextChanged { text, start, before, count ->
-            Log.i("jeje", "test ${text} ${start} ${before} ${count}")
-            val friends = viewModel.friends.value
-            if (friends != null) {
-
+            if (text.isNullOrEmpty()) {
+                viewModel.friends.value = viewModel.originFriends
+            }else{
+                viewModel.friends.value = viewModel.originFriends.filterIndexed{ index, friend ->
+                    if (KoreanSoundSearchUtils.isMatchString(friend.nickName.toString() ,text.toString() ) != null) {
+                        true
+                    }
+                    else {
+                        false
+                    }
+                }.toMutableList()
             }
         }
 
@@ -86,6 +93,8 @@ class FriendPickerViewModel() : ViewModel() {
     val friends : MutableLiveData<MutableList<Friend>> = MutableLiveData()
     var selectedFriends : MutableLiveData<MutableList<Friend>> = MutableLiveData()
 
+    val originFriends : MutableList<Friend> = mutableListOf()
+
     fun fetch() {
         if (friends.value != null) {
             friends.value = friends.value?.toMutableList()
@@ -101,6 +110,8 @@ class FriendPickerViewModel() : ViewModel() {
                     for (friend in it.elements) {
                         friends.value?.add(Friend(profileImage = friend.profileThumbnailImage, nickName = friend.profileNickname))
                         friends.value = friends.value?.toMutableList()
+
+                        originFriends.add(Friend(profileImage = friend.profileThumbnailImage, nickName = friend.profileNickname))
                     }
                 }
             }
