@@ -41,12 +41,14 @@ class FriendPickerFragment : Fragment() {
     ): View? {
 
         viewModel.friends.observe(viewLifecycleOwner, Observer {
+            Log.i("jeje", "test friends.observe ")
             pickerAdapter.notifyDataSetChanged()
         })
 
         viewModel.selectedFriends.observe(viewLifecycleOwner, Observer {
             selectedAdapter.notifyDataSetChanged()
         })
+
 
         return inflater.inflate(R.layout.fragment_friend_picker, container, false)
     }
@@ -55,9 +57,9 @@ class FriendPickerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         search_bar.doOnTextChanged { text, start, before, count ->
-            viewModel.searchText.value = text.toString()
+            viewModel.searchText = text.toString()
             if (text.isNullOrEmpty()) {
-                viewModel.friends.value = viewModel.originFriends
+                viewModel.friends.value = viewModel.originFriends.toMutableList()
             }else{
                 viewModel.friends.value = viewModel.originFriends.filterIndexed{ index, friend ->
                     if (KoreanSoundSearchUtils.isMatchString(friend.nickName.toString() ,text.toString() ) != null) {
@@ -88,17 +90,7 @@ class FriendPickerFragment : Fragment() {
             }
         }
 
-        //search_bar.text
-        if (!viewModel.searchText.value.isNullOrEmpty())  {
-            viewModel.friends.value = viewModel.originFriends.filterIndexed{ index, friend ->
-                if (KoreanSoundSearchUtils.isMatchString(friend.nickName.toString() ,viewModel.searchText.toString() ) != null) {
-                    true
-                }
-                else {
-                    false
-                }
-            }.toMutableList()
-        }
+        search_bar.setText(viewModel.searchText)
     }
 }
 
@@ -108,14 +100,12 @@ class FriendPickerViewModel() : ViewModel() {
 
     val originFriends : MutableList<Friend> = mutableListOf()
 
-    var searchText : MutableLiveData<String> = MutableLiveData("")
+    var searchText : String = ""
 
     fun fetch() {
         if (friends.value != null) {
-            friends.value = friends.value?.toMutableList()
             return
         }
-        Log.i("jeje", "test")
 
         TalkApiClient.instance.friendsForPartner(limit = 100) { it, error ->
             if (error != null) {
