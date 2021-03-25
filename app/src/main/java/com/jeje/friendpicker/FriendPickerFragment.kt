@@ -55,6 +55,7 @@ class FriendPickerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         search_bar.doOnTextChanged { text, start, before, count ->
+            viewModel.searchText.value = text.toString()
             if (text.isNullOrEmpty()) {
                 viewModel.friends.value = viewModel.originFriends
             }else{
@@ -86,6 +87,18 @@ class FriendPickerFragment : Fragment() {
                 selected_friends_view.visibility = View.VISIBLE
             }
         }
+
+        //search_bar.text
+        if (!viewModel.searchText.value.isNullOrEmpty())  {
+            viewModel.friends.value = viewModel.originFriends.filterIndexed{ index, friend ->
+                if (KoreanSoundSearchUtils.isMatchString(friend.nickName.toString() ,viewModel.searchText.toString() ) != null) {
+                    true
+                }
+                else {
+                    false
+                }
+            }.toMutableList()
+        }
     }
 }
 
@@ -95,11 +108,14 @@ class FriendPickerViewModel() : ViewModel() {
 
     val originFriends : MutableList<Friend> = mutableListOf()
 
+    var searchText : MutableLiveData<String> = MutableLiveData("")
+
     fun fetch() {
         if (friends.value != null) {
             friends.value = friends.value?.toMutableList()
             return
         }
+        Log.i("jeje", "test")
 
         TalkApiClient.instance.friendsForPartner(limit = 100) { it, error ->
             if (error != null) {
@@ -108,10 +124,11 @@ class FriendPickerViewModel() : ViewModel() {
                 if (it != null) {
                     friends.value = mutableListOf()
                     for (friend in it.elements) {
-                        friends.value?.add(Friend(profileImage = friend.profileThumbnailImage, nickName = friend.profileNickname))
+                        val friend = Friend(profileImage = friend.profileThumbnailImage, nickName = friend.profileNickname)
+                        friends.value?.add(friend)
                         friends.value = friends.value?.toMutableList()
 
-                        originFriends.add(Friend(profileImage = friend.profileThumbnailImage, nickName = friend.profileNickname))
+                        originFriends.add(friend)
                     }
                 }
             }
