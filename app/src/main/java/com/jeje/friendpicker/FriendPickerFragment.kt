@@ -28,7 +28,7 @@ import kotlinx.android.synthetic.main.fragment_friend_picker.*
  * Use the [FriendPickerFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class FriendPickerFragment : Fragment() {
+class FriendPickerFragment : Fragment() , FriendSelectedAdapterListener{
 
     private lateinit var pickerAdapter: FriendPickerAdapter
     private lateinit var selectedAdapter: FriendSelectedAdapter
@@ -69,6 +69,7 @@ class FriendPickerFragment : Fragment() {
         selectedAdapter = FriendSelectedAdapter(requireContext(), viewModel, selected_friends_view)
         selected_friends_view.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
         selected_friends_view.adapter = selectedAdapter
+        selectedAdapter.listener = this
 
         pickerAdapter = FriendPickerAdapter(requireContext(), selectedAdapter, selected_friends_view, viewModel)
         friends_view.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
@@ -84,6 +85,15 @@ class FriendPickerFragment : Fragment() {
         }
 
         search_bar.setText(viewModel.searchText)
+    }
+
+    override fun onRemoved(friend: Friend?) {
+        friend?.let {
+            val pos = viewModel.friends.value?.indexOf(it)
+            if (pos != null) {
+                pickerAdapter.notifyItemChanged(pos + 1)
+            }
+        }
     }
 }
 

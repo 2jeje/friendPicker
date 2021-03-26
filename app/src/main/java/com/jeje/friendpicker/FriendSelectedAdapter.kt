@@ -8,9 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jeje.friendpicker.databinding.SelectedFriendListBinding
 
 
-
+// 콜백 인터페이스
+interface FriendSelectedAdapterListener {
+    fun onRemoved(friend: Friend?)
+}
 
 class FriendSelectedAdapter(private val context : Context, private val viewModel: FriendPickerViewModel, private val view : View) : RecyclerView.Adapter<FriendSelectedAdapter.ViewHolder>() {
+
+    lateinit var listener :  FriendSelectedAdapterListener
 
     inner class ViewHolder(val binding : SelectedFriendListBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(data: Friend, position: Int) {
@@ -46,7 +51,7 @@ class FriendSelectedAdapter(private val context : Context, private val viewModel
                 viewModel.selectedFriends.value?.removeAt(pos)
 
                 friend?.checked = false
-                viewModel.friends.value = viewModel.friends.value
+                listener?.onRemoved(friend)
 
                 notifyItemRemoved(pos)
 

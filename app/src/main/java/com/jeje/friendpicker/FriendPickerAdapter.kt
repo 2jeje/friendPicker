@@ -72,7 +72,7 @@ class FriendPickerAdapter(private val context : Context, private val selectedAda
                         if (friend.checked) {
                             friend.checked = false
                             holder.binding.checkBox.isChecked = false
-                            
+
                             val removedPos = viewModel.selectedFriends.value?.indexOf(friend)
 
                             if (removedPos != null) {
@@ -83,6 +83,7 @@ class FriendPickerAdapter(private val context : Context, private val selectedAda
                             if (viewModel.selectedFriends.value?.size!! <= 0) {
                                 selectedView.visibility = View.GONE
                             }
+
                         } else {
                             friend.checked = true
                             holder.binding.checkBox.isChecked = true
