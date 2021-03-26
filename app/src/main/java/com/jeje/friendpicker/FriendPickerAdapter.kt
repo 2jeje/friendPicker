@@ -72,12 +72,13 @@ class FriendPickerAdapter(private val context : Context, private val selectedAda
                         if (friend.checked) {
                             friend.checked = false
                             holder.binding.checkBox.isChecked = false
+                            
+                            val removedPos = viewModel.selectedFriends.value?.indexOf(friend)
 
-                            viewModel.selectedFriends.value = viewModel.selectedFriends.value?.filterIndexed { index, selected ->
-                                selected.profileImage != friend.profileImage && selected.nickName != friend.nickName
-                            }?.toMutableList()
-
-                            selectedAdapter.notifyDataSetChanged()
+                            if (removedPos != null) {
+                                viewModel.selectedFriends.value?.removeAt(removedPos)
+                                selectedAdapter.notifyItemRemoved(removedPos)
+                            }
 
                             if (viewModel.selectedFriends.value?.size!! <= 0) {
                                 selectedView.visibility = View.GONE
@@ -87,7 +88,7 @@ class FriendPickerAdapter(private val context : Context, private val selectedAda
                             holder.binding.checkBox.isChecked = true
 
                             viewModel.selectedFriends.value?.add(0,friend)
-                            selectedAdapter.notifyDataSetChanged()
+                            selectedAdapter.notifyItemInserted(0)
 
                             selectedView.visibility = View.VISIBLE
                         }

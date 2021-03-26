@@ -38,6 +38,7 @@ class FriendSelectedAdapter(private val context : Context, private val viewModel
                 holder.itemView.visibility = View.GONE
             }
         }
+
         holder.itemView.setOnClickListener(View.OnClickListener {
 
             if (holder.adapterPosition != RecyclerView.NO_POSITION) {
@@ -47,7 +48,7 @@ class FriendSelectedAdapter(private val context : Context, private val viewModel
                 friend?.checked = false
                 viewModel.friends.value = viewModel.friends.value
 
-                notifyDataSetChanged()
+                notifyItemRemoved(pos)
 
                 if (viewModel.selectedFriends.value?.size!! <= 0) {
                     view.visibility = View.GONE
