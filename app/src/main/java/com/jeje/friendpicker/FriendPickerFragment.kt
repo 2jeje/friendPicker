@@ -66,7 +66,7 @@ class FriendPickerFragment : Fragment() {
             }
         }
 
-        selectedAdapter = FriendSelectedAdapter(requireContext(), viewModel)
+        selectedAdapter = FriendSelectedAdapter(requireContext(), viewModel, selected_friends_view)
         selected_friends_view.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
         selected_friends_view.adapter = selectedAdapter
 

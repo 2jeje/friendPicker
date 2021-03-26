@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jeje.friendpicker.databinding.SelectedFriendListBinding
 
 
-class FriendSelectedAdapter(private val context : Context, private val viewModel: FriendPickerViewModel) : RecyclerView.Adapter<FriendSelectedAdapter.ViewHolder>() {
+class FriendSelectedAdapter(private val context : Context, private val viewModel: FriendPickerViewModel, private val view : View) : RecyclerView.Adapter<FriendSelectedAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding : SelectedFriendListBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(data: Friend, position: Int) {
@@ -38,6 +38,10 @@ class FriendSelectedAdapter(private val context : Context, private val viewModel
                 viewModel.friends.value = viewModel.friends.value
 
                 notifyDataSetChanged()
+
+                if (viewModel.selectedFriends.value?.size!! <= 0) {
+                    view.visibility = View.GONE
+                }
             }
         })
 
