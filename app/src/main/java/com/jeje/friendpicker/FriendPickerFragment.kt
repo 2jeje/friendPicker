@@ -41,7 +41,6 @@ class FriendPickerFragment : Fragment() {
     ): View? {
 
         viewModel.friends.observe(viewLifecycleOwner, Observer {
-            Log.i("jeje", "test friends.observe ")
             pickerAdapter.notifyDataSetChanged()
         })
 
@@ -62,12 +61,7 @@ class FriendPickerFragment : Fragment() {
                 viewModel.friends.value = viewModel.originFriends.toMutableList()
             }else{
                 viewModel.friends.value = viewModel.originFriends.filterIndexed{ index, friend ->
-                    if (KoreanSoundSearchUtils.isMatchString(friend.nickName.toString() ,text.toString() ) != null) {
-                        true
-                    }
-                    else {
-                        false
-                    }
+                    KoreanSoundSearchUtils.isMatchString(friend.nickName.toString() ,text.toString() ) != null
                 }.toMutableList()
             }
         }
@@ -81,13 +75,12 @@ class FriendPickerFragment : Fragment() {
         friends_view.adapter = pickerAdapter
 
         viewModel.fetch()
+
         if (viewModel.selectedFriends.value.isNullOrEmpty()) {
             selected_friends_view.visibility = View.GONE
         }
         else {
-            viewModel.selectedFriends.value?.let {
-                selected_friends_view.visibility = View.VISIBLE
-            }
+            selected_friends_view.visibility = View.VISIBLE
         }
 
         search_bar.setText(viewModel.searchText)
@@ -96,7 +89,7 @@ class FriendPickerFragment : Fragment() {
 
 class FriendPickerViewModel() : ViewModel() {
     val friends : MutableLiveData<MutableList<Friend>> = MutableLiveData()
-    var selectedFriends : MutableLiveData<MutableList<Friend>> = MutableLiveData()
+    var selectedFriends : MutableLiveData<MutableList<Friend>> = MutableLiveData(mutableListOf())
 
     val originFriends : MutableList<Friend> = mutableListOf()
 

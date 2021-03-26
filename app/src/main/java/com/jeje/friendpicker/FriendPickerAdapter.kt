@@ -88,9 +88,6 @@ class FriendPickerAdapter(private val context : Context, private val selectedAda
                             friend.checked = true
                             holder.binding.checkBox.isChecked = true
 
-                            if (viewModel.selectedFriends.value.isNullOrEmpty()) {
-                                viewModel.selectedFriends.value = mutableListOf()
-                            }
                             viewModel.selectedFriends.value?.add(0,friend)
                             selectedAdapter.notifyDataSetChanged()
                             selectedView.visibility = View.VISIBLE
