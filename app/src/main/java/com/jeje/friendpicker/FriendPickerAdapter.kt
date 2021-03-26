@@ -79,8 +79,6 @@ class FriendPickerAdapter(private val context : Context, private val selectedAda
 
                             selectedAdapter.notifyDataSetChanged()
 
-                            holder.itemView.visibility = View.GONE
-
                             if (viewModel.selectedFriends.value?.size!! <= 0) {
                                 selectedView.visibility = View.GONE
                             }
@@ -91,7 +89,6 @@ class FriendPickerAdapter(private val context : Context, private val selectedAda
                             viewModel.selectedFriends.value?.add(0,friend)
                             selectedAdapter.notifyDataSetChanged()
 
-                            holder.itemView.visibility = View.VISIBLE
                             selectedView.visibility = View.VISIBLE
                         }
                     }
