@@ -26,7 +26,6 @@ class ItemViewHolder(val binding : ItemDataListBinding): BaseViewHolder(binding.
 
 class FriendPickerAdapter(private val context : Context, private val selectedAdapter: FriendSelectedAdapter, private val selectedView : View, private val viewModel: FriendPickerViewModel) : RecyclerView.Adapter<BaseViewHolder>() {
 
-
     private val TYPE_HEADER = 0
     private val TYPE_ITEM = 1
 

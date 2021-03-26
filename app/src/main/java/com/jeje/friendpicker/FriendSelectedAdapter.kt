@@ -2,9 +2,11 @@ package com.jeje.friendpicker
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jeje.friendpicker.databinding.SelectedFriendListBinding
+
 
 class FriendSelectedAdapter(private val context : Context, private val viewModel: FriendPickerViewModel) : RecyclerView.Adapter<FriendSelectedAdapter.ViewHolder>() {
 
@@ -24,20 +26,20 @@ class FriendSelectedAdapter(private val context : Context, private val viewModel
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         viewModel.selectedFriends.value?.get(position)?.let { holder.bind(it, position) }
 
-//        holder.itemView.setOnClickListener(View.OnClickListener {
-//            val pos = holder.adapterPosition
-//            if (pos != RecyclerView.NO_POSITION) {
-//                val friend = friends[pos]
-//                if (friend.checked) {
-//                    friend.checked = false
-//                    holder.binding.checkBox.isChecked = false
-//                }
-//                else {
-//                    friend.checked = true
-//                    holder.binding.checkBox.isChecked = true
-//                }
-//            }
-//        })
+        val friend = viewModel.selectedFriends.value?.get(position)
+
+        holder.itemView.setOnClickListener(View.OnClickListener {
+
+            if (holder.adapterPosition != RecyclerView.NO_POSITION) {
+                val pos = holder.adapterPosition
+                viewModel.selectedFriends.value?.removeAt(pos)
+
+                friend?.checked = false
+                viewModel.friends.value = viewModel.friends.value
+
+                notifyDataSetChanged()
+            }
+        })
 
     }
 }
