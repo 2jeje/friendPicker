@@ -23,6 +23,7 @@
             android:contentDescription="@null"
             android:layout_gravity="center_horizontal"
             android:scaleType="fitCenter"
+            android:background="@color/transparent"
             app:imageUri="@{friend.profileImage}"
             app:srcCompat="@mipmap/ic_launcher" />
 
