@@ -31,6 +31,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="라이언"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:maxWidth="60dp"
             android:textSize="6pt"
             android:textAlignment="center"
             app:nickName="@{friend.nickName}" />
