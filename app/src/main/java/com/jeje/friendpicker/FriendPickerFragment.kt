@@ -28,7 +28,7 @@ import kotlinx.android.synthetic.main.fragment_friend_picker.*
  * Use the [FriendPickerFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class FriendPickerFragment : Fragment() , FriendSelectedAdapterListener{
+class FriendPickerFragment : Fragment() , FriendSelectedAdapterListener, FriendPickerAdapterListener{
 
     private lateinit var pickerAdapter: FriendPickerAdapter
     private lateinit var selectedAdapter: FriendSelectedAdapter
@@ -71,9 +71,10 @@ class FriendPickerFragment : Fragment() , FriendSelectedAdapterListener{
         selected_friends_view.adapter = selectedAdapter
         selectedAdapter.listener = this
 
-        pickerAdapter = FriendPickerAdapter(requireContext(), selectedAdapter, selected_friends_view, viewModel)
+        pickerAdapter = FriendPickerAdapter(requireContext(), viewModel)
         friends_view.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         friends_view.adapter = pickerAdapter
+        pickerAdapter.listener = this
 
         viewModel.fetch()
 
@@ -87,7 +88,7 @@ class FriendPickerFragment : Fragment() , FriendSelectedAdapterListener{
         search_bar.setText(viewModel.searchText)
     }
 
-    override fun onRemoved(friend: Friend?) {
+    override fun onSelectedFriendRemoved(friend: Friend?) {
         friend?.let {
             val pos = viewModel.friends.value?.indexOf(it)
             if (pos != null) {
@@ -95,6 +96,31 @@ class FriendPickerFragment : Fragment() , FriendSelectedAdapterListener{
             }
         }
     }
+
+    override fun onClickFriend(friend: Friend?) {
+        if (friend != null) {
+            if (friend.checked) {
+                val removedPos = viewModel.selectedFriends.value?.indexOf(friend)
+
+                if (removedPos != null) {
+                    viewModel.selectedFriends.value?.removeAt(removedPos)
+                    selectedAdapter.notifyItemRemoved(removedPos)
+                }
+
+                if (viewModel.selectedFriends.value?.size!! <= 0) {
+                    selected_friends_view.visibility = View.GONE
+                }
+
+            } else {
+                viewModel.selectedFriends.value?.add(0, friend)
+                selectedAdapter.notifyItemInserted(0)
+
+                selected_friends_view.visibility = View.VISIBLE
+            }
+        }
+    }
+
+
 }
 
 class FriendPickerViewModel() : ViewModel() {

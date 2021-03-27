@@ -14,6 +14,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jeje.friendpicker.databinding.ItemDataListBinding
 import kotlinx.android.synthetic.main.fragment_friend_picker.*
 
+
+interface FriendPickerAdapterListener {
+    fun onClickFriend(friend: Friend?)
+}
+
+
 open class BaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
 class HeaderViewHolder(itemView: View) : BaseViewHolder(itemView)
@@ -24,12 +30,14 @@ class ItemViewHolder(val binding : ItemDataListBinding): BaseViewHolder(binding.
     }
 }
 
-class FriendPickerAdapter(private val context : Context, private val selectedAdapter: FriendSelectedAdapter, private val selectedView : View, private val viewModel: FriendPickerViewModel) : RecyclerView.Adapter<BaseViewHolder>() {
+class FriendPickerAdapter(private val context : Context, private val viewModel: FriendPickerViewModel) : RecyclerView.Adapter<BaseViewHolder>() {
 
     private val TYPE_HEADER = 0
     private val TYPE_ITEM = 1
 
     private val HEADER_SIZE = 1
+
+    lateinit var listener: FriendPickerAdapterListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
 
@@ -66,32 +74,17 @@ class FriendPickerAdapter(private val context : Context, private val selectedAda
             holder.itemView.setOnClickListener(View.OnClickListener {
 
                 if (holder.adapterPosition != RecyclerView.NO_POSITION) {
-                    val pos = holder.adapterPosition  - HEADER_SIZE
+                    //val pos = holder.adapterPosition - HEADER_SIZE
+                    listener.onClickFriend(friend)
 
-                    if (friend != null) {
-                        if (friend.checked) {
-                            friend.checked = false
+                    friend?.run {
+                        if (checked) {
+                            checked = false
                             holder.binding.checkBox.isChecked = false
 
-                            val removedPos = viewModel.selectedFriends.value?.indexOf(friend)
-
-                            if (removedPos != null) {
-                                viewModel.selectedFriends.value?.removeAt(removedPos)
-                                selectedAdapter.notifyItemRemoved(removedPos)
-                            }
-
-                            if (viewModel.selectedFriends.value?.size!! <= 0) {
-                                selectedView.visibility = View.GONE
-                            }
-
                         } else {
-                            friend.checked = true
+                            checked = true
                             holder.binding.checkBox.isChecked = true
-
-                            viewModel.selectedFriends.value?.add(0,friend)
-                            selectedAdapter.notifyItemInserted(0)
-
-                            selectedView.visibility = View.VISIBLE
                         }
                     }
                 }
