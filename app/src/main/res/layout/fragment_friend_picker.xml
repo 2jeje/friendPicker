@@ -11,7 +11,6 @@
         android:layout_height="match_parent"
         android:animateLayoutChanges="true">
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/header_title"
             android:layout_width="match_parent"
@@ -45,6 +44,17 @@
                 app:layout_constraintStart_toEndOf="@id/back_btn"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                android:id="@+id/count_view"
+                android:layout_width="10dp"
+                android:layout_height="60dp"
+
+                android:textColor="@color/kakao_yellow"
+                android:textSize="8pt"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/done_btn"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/done_btn"
@@ -94,7 +104,7 @@
             android:singleLine="true"
             android:textCursorDrawable="@drawable/bg_cursor"
             android:background="@drawable/bg_round_rect_gray"
-            android:hint="이름(초성), 전화번호 검색"
+            android:hint="이름(초성) 검색"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/selected_friends_view"

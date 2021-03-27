@@ -113,16 +113,23 @@ class FriendPickerFragment : Fragment() , FriendSelectedAdapterListener, FriendP
                     selectedAdapter.notifyItemRemoved(removedPos)
                 }
 
-                if (viewModel.selectedFriends.value?.size!! <= 0) {
-                    selected_friends_view.visibility = View.GONE
-                }
-
             } else {
                 viewModel.selectedFriends.value?.add(0, friend)
                 selectedAdapter.notifyItemInserted(0)
                 selected_friends_view.scrollToPosition(0)
+            }
 
-                selected_friends_view.visibility = View.VISIBLE
+            viewModel.selectedFriends.value?.let {
+                if (it.size <= 0) {
+                    selected_friends_view.visibility = View.GONE
+                    count_view.text = ""
+                    done_btn.isEnabled = false
+                }
+                else {
+                    selected_friends_view.visibility = View.VISIBLE
+                    count_view.text = it.size.toString()
+                    done_btn.isEnabled = true
+                }
             }
         }
     }
