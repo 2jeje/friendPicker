@@ -103,7 +103,8 @@ class FriendPickerFragment : Fragment() , FriendSelectedAdapterListener, FriendP
     }
 
     override fun onClickFriend(friend: Friend?) {
-        if (friend != null) {
+
+        friend?.let {
             if (friend.checked) {
                 val removedPos = viewModel.selectedFriends.value?.indexOf(friend)
 
