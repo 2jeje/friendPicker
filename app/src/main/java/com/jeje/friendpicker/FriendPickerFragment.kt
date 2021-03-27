@@ -119,6 +119,7 @@ class FriendPickerFragment : Fragment() , FriendSelectedAdapterListener, FriendP
             } else {
                 viewModel.selectedFriends.value?.add(0, friend)
                 selectedAdapter.notifyItemInserted(0)
+                selected_friends_view.scrollToPosition(0)
 
                 selected_friends_view.visibility = View.VISIBLE
             }
