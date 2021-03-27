@@ -48,7 +48,6 @@ class FriendPickerFragment : Fragment() , FriendSelectedAdapterListener, FriendP
             selectedAdapter.notifyDataSetChanged()
         })
 
-
         return inflater.inflate(R.layout.fragment_friend_picker, container, false)
     }
 
@@ -142,13 +141,15 @@ class FriendPickerViewModel() : ViewModel() {
             } else {
                 if (it != null) {
                     friends.value = mutableListOf()
+
                     for (friend in it.elements) {
                         val friend = Friend(profileImage = friend.profileThumbnailImage, nickName = friend.profileNickname)
                         friends.value?.add(friend)
-                        friends.value = friends.value?.toMutableList()
 
                         originFriends.add(friend)
                     }
+                    
+                    friends.value = friends.value?.toMutableList()
                 }
             }
         }
