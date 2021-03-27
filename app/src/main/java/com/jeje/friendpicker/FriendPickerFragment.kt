@@ -55,7 +55,13 @@ class FriendPickerFragment : Fragment() , FriendSelectedAdapterListener, FriendP
         super.onViewCreated(view, savedInstanceState)
 
         search_bar.doOnTextChanged { text, start, before, count ->
+            if (text.toString().equals(viewModel.searchText)) {
+                return@doOnTextChanged
+            }
+
             viewModel.searchText = text.toString()
+            Log.i("jeje", "test ${text.toString()}")
+
             if (text.isNullOrEmpty()) {
                 viewModel.friends.value = viewModel.originFriends.toMutableList()
             }else{
