@@ -15,6 +15,7 @@
             android:id="@+id/header_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
             android:animateLayoutChanges="true"
             app:layout_constraintBottom_toTopOf="@id/selected_friends_view"
             app:layout_constraintEnd_toEndOf="parent"
@@ -25,7 +26,9 @@
                 android:id="@+id/back_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:paddingRight="15dp"
+                android:src="@drawable/common_ico_back"
+                android:background="@color/transparent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/title_view"
                 app:layout_constraintStart_toStartOf="parent"

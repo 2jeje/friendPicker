@@ -60,7 +60,6 @@ class FriendPickerFragment : Fragment() , FriendSelectedAdapterListener, FriendP
             }
 
             viewModel.searchText = text.toString()
-            Log.i("jeje", "test ${text.toString()}")
 
             if (text.isNullOrEmpty()) {
                 viewModel.friends.value = viewModel.originFriends.toMutableList()
@@ -69,6 +68,14 @@ class FriendPickerFragment : Fragment() , FriendSelectedAdapterListener, FriendP
                     KoreanSoundSearchUtils.isMatchString(friend.nickName.toString() ,text.toString() ) != null
                 }.toMutableList()
             }
+        }
+
+        done_btn.setOnClickListener {
+            this.activity?.finish()
+        }
+
+        back_btn.setOnClickListener {
+            this.activity?.finish()
         }
 
         selectedAdapter = FriendSelectedAdapter(requireContext(), viewModel, selected_friends_view)
@@ -83,14 +90,8 @@ class FriendPickerFragment : Fragment() , FriendSelectedAdapterListener, FriendP
 
         viewModel.fetch()
 
-        if (viewModel.selectedFriends.value.isNullOrEmpty()) {
-            selected_friends_view.visibility = View.GONE
-        }
-        else {
-            selected_friends_view.visibility = View.VISIBLE
-        }
-
-        search_bar.setText(viewModel.searchText)
+        updateSelectedFriendView()
+        updateSearchView()
         updateHeaderView()
     }
 
@@ -124,6 +125,14 @@ class FriendPickerFragment : Fragment() , FriendSelectedAdapterListener, FriendP
         }
     }
 
+    fun updateSelectedFriendView() {
+        if (viewModel.selectedFriends.value.isNullOrEmpty()) {
+            selected_friends_view.visibility = View.GONE
+        }
+        else {
+            selected_friends_view.visibility = View.VISIBLE
+        }
+    }
 
     fun updateHeaderView() {
         viewModel.selectedFriends.value?.let {
@@ -138,6 +147,10 @@ class FriendPickerFragment : Fragment() , FriendSelectedAdapterListener, FriendP
                 done_btn.isEnabled = true
             }
         }
+    }
+
+    fun updateSearchView() {
+        search_bar.setText(viewModel.searchText)
     }
 
 }
