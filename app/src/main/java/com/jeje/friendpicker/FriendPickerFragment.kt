@@ -119,7 +119,6 @@ class FriendPickerFragment : Fragment() , FriendSelectedAdapterListener, FriendP
         }
     }
 
-
 }
 
 class FriendPickerViewModel() : ViewModel() {
@@ -148,8 +147,7 @@ class FriendPickerViewModel() : ViewModel() {
 
                         originFriends.add(friend)
                     }
-                    
-                    friends.value = friends.value?.toMutableList()
+
                 }
             }
         }
