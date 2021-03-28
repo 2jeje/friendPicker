@@ -13,7 +13,7 @@
         android:id="@+id/storeItemLayout"
         android:layout_width="wrap_content"
         android:orientation="vertical"
-        android:layout_marginEnd="8dp"
+        android:paddingRight="10dp"
         android:layout_height="wrap_content">
 
         <com.jeje.friendpicker.SquircleImageView
@@ -38,7 +38,7 @@
             android:layout_marginStart="31dp"
             android:src="@drawable/common_ico_delete"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="@id/storeItemLayout" />
 
         <TextView
             android:id="@+id/selected_nickname"
@@ -48,7 +48,7 @@
             android:text="라이언"
             android:ellipsize="end"
             android:maxLines="1"
-            android:maxWidth="60dp"
+            android:maxWidth="50dp"
             android:textSize="6pt"
             android:textAlignment="center"
             app:layout_constraintTop_toBottomOf="@id/profileImage"
