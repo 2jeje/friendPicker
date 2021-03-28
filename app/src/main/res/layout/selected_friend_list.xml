@@ -18,8 +18,8 @@
 
         <com.jeje.friendpicker.SquircleImageView
             android:id="@+id/profileImage"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:contentDescription="@null"
             android:layout_gravity="center_horizontal"
             android:scaleType="fitCenter"
