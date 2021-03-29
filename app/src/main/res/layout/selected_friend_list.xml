@@ -11,16 +11,17 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/storeItemLayout"
-        android:layout_width="wrap_content"
-        android:orientation="vertical"
+
+        android:layout_width="55dp"
         android:paddingRight="10dp"
+        android:background="@color/transparent"
         android:layout_height="wrap_content">
 
         <com.jeje.friendpicker.SquircleImageView
             android:id="@+id/profileImage"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:contentDescription="@null"
+
             android:layout_gravity="center_horizontal"
             android:scaleType="fitCenter"
             android:background="@color/transparent"
@@ -35,10 +36,10 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="31dp"
+            android:layout_marginStart="50dp"
             android:src="@drawable/common_ico_delete"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/storeItemLayout" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
             android:id="@+id/selected_nickname"
