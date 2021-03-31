@@ -1,6 +1,7 @@
 package com.jeje.friendpicker
 
 import android.os.Bundle
+import android.os.ProxyFileDescriptorCallback
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -94,7 +95,13 @@ class FriendPickerFragment : Fragment() , FriendSelectedAdapterListener, FriendP
         friends_view.adapter = pickerAdapter
         pickerAdapter.listener = this
 
-        viewModel.fetch()
+        viewModel.fetch() { startPos, numberOfItem, error ->
+            if (error == null) {
+                if (startPos != null && numberOfItem != null) {
+                    pickerAdapter.notifyItemRangeInserted(startPos, numberOfItem)
+                }
+            }
+        }
 
         updateSelectedFriendView()
         updateSearchView()
@@ -169,15 +176,16 @@ class FriendPickerViewModel() : ViewModel() {
 
     var searchText : String = ""
 
+    val FETCH_COUNT = 100
 
     private var recursiveAppFriendsCompletion : ((Friends<PartnerFriend>?, Error?) -> Unit)? = null
 
-    fun fetch() {
+    fun fetch(callback: (startPos : Int?, numberOfItem : Int? , error: Throwable?) -> Unit) {
         if (friends.value != null) {
             return
         }
 
-        var nextFriendsContext = PartnerFriendsContext(offset= 0, limit= 100, order = Order.ASC, friendType = FriendType.KAKAO_TALK)
+        var nextFriendsContext = PartnerFriendsContext(offset= 0, limit= FETCH_COUNT, order = Order.ASC, friendType = FriendType.KAKAO_TALK)
         this.friends.value = mutableListOf()
 
         recursiveAppFriendsCompletion = recursiveAppFriendsCompletion@{ friends, error  ->
@@ -198,17 +206,20 @@ class FriendPickerViewModel() : ViewModel() {
                 TalkApiClient.instance.friendsForPartner(context = nextFriendsContext) { receivedFriends, error ->
                     if (error != null) {
                         Log.e("jeje", "카카오톡 친구 목록 받기 실패", error)
+                        callback(null, null, error)
                     } else if (receivedFriends != null) {
                         Log.i("jeje", "카카오톡 친구 목록 받기 성공 \n${receivedFriends.elements.joinToString("\n")}")
-
 
                         if (receivedFriends != null) {
                             for (friend in receivedFriends.elements) {
                                 val friend = Friend(profileImage = friend.profileThumbnailImage, nickName = friend.profileNickname)
                                 this.friends.value?.add(friend)
-
                                 originFriends.add(friend)
-                                this.friends.value = this.friends.value?.toMutableList()
+                            }
+                            val afterContext = receivedFriends.afterUrl?.let { PartnerFriendsContext(url = it) }
+
+                            if (afterContext != null) {
+                                callback(afterContext.offset , afterContext.limit, null)
                             }
                         }
                         recursiveAppFriendsCompletion?.let { it(receivedFriends, null) }
@@ -218,24 +229,6 @@ class FriendPickerViewModel() : ViewModel() {
         }
 
         recursiveAppFriendsCompletion?.let { it(null, null) }
-
-//        TalkApiClient.instance.friendsForPartner(limit = 100) { it, error ->
-//            if (error != null) {
-//                Log.i("jeje", "${error}")
-//            } else {
-//                if (it != null) {
-//                    friends.value = mutableListOf()
-//
-//                    for (friend in it.elements) {
-//                        val friend = Friend(profileImage = friend.profileThumbnailImage, nickName = friend.profileNickname)
-//                        friends.value?.add(friend)
-//
-//                        originFriends.add(friend)
-//                    }
-//
-//                }
-//            }
-//        }
     }
 }
 
