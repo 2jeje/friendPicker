@@ -7,4 +7,10 @@
         <attr name="squircle_borderWidth" format="integer|dimension|reference" />
     </declare-styleable>
 
+
+    <declare-styleable name="SideIndexView">
+        <attr name="sideindex_text_size" format="dimension" />
+        <attr name="sideindex_text_color" format="color" />
+    </declare-styleable>
+
 </resources>
