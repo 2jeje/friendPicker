@@ -1,26 +1,13 @@
-package com.jeje.friendpicker
+package com.jeje.friendpicker.view
 
-import android.app.Activity
 import android.content.Context
-import android.content.res.Configuration
-import android.content.res.Resources
-import android.content.res.TypedArray
 import android.graphics.*
 import android.os.Build
 import android.util.AttributeSet
-import android.util.DisplayMetrics
-import android.util.Log.w
 import android.util.SparseArray
-import android.view.WindowManager
-import android.widget.ImageView
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.use
-import androidx.core.view.ViewCompat.getDisplay
-import com.kakao.sdk.common.util.SdkLog.Companion.w
-import java.util.logging.Logger
-import kotlin.math.cos
+import com.jeje.friendpicker.R
 import kotlin.math.min
-import kotlin.math.sin
 
 class SquircleImageView : androidx.appcompat.widget.AppCompatImageView {
     private var maskPaint: Paint = Paint()
@@ -129,7 +116,7 @@ class SquircleImageView : androidx.appcompat.widget.AppCompatImageView {
         }
         val dipToPixelToFloat = (borderWidth * getDensity())
 
-        SquircleUtils.makeScale(borderPath, width - dipToPixelToFloat, height - dipToPixelToFloat, dipToPixelToFloat/ 2f)
+        SquircleUtils.makeScale(borderPath, width - dipToPixelToFloat, height - dipToPixelToFloat, dipToPixelToFloat / 2f)
         if (Build.VERSION.SDK_INT >= 28) {
             maskPath.fillType = Path.FillType.EVEN_ODD
             maskPath.addRect(RectF(0f, 0f, width.toFloat(), height.toFloat()), Path.Direction.CW)

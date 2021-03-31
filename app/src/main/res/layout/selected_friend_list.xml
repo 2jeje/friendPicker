@@ -6,7 +6,7 @@
     <data>
         <variable
             name="friend"
-            type="com.jeje.friendpicker.Friend" />
+            type="com.jeje.friendpicker.model.Friend" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,7 +17,7 @@
         android:background="@color/transparent"
         android:layout_height="wrap_content">
 
-        <com.jeje.friendpicker.SquircleImageView
+        <com.jeje.friendpicker.view.SquircleImageView
             android:id="@+id/profileImage"
             android:layout_width="40dp"
             android:layout_height="40dp"

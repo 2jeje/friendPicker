@@ -17,7 +17,6 @@ import kotlinx.android.synthetic.main.activity_main.*
           super.onCreate(savedInstanceState)
           setContentView(R.layout.activity_main)
 
-
           KakaoSdk.init(this,"9f9de684c354a72d2eb2a540a11441c2",loggingEnabled = true)
 
           UserApiClient.instance.loginWithKakaoAccount(this) { token, error ->

@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jeje.friendpicker.databinding.SelectedFriendListBinding
+import com.jeje.friendpicker.model.Friend
+import com.jeje.friendpicker.viewmodel.FriendPickerViewModel
 
 
 interface FriendSelectedAdapterListener {

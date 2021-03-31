@@ -1,18 +1,13 @@
 package com.jeje.friendpicker
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.CheckBox
-import android.widget.RadioButton
-import android.widget.TextView
-import androidx.annotation.RequiresPermission
 import androidx.recyclerview.widget.RecyclerView
 import com.jeje.friendpicker.databinding.ItemDataListBinding
-import kotlinx.android.synthetic.main.fragment_friend_picker.*
+import com.jeje.friendpicker.model.Friend
+import com.jeje.friendpicker.viewmodel.FriendPickerViewModel
 
 
 interface FriendPickerAdapterListener {

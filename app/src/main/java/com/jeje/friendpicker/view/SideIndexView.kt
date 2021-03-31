@@ -1,4 +1,4 @@
-/*package com.jeje.friendpicker
+package com.jeje.friendpicker.view/*package com.jeje.friendpicker
 
 import android.content.Context
 import android.content.res.Configuration
