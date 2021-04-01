@@ -29,12 +29,6 @@ class FriendPickerAdapter(
     private val context: Context,
     private val viewModel: FriendPickerViewModel
 ) : RecyclerView.Adapter<BaseViewHolder>() {
-
-    private val TYPE_HEADER = 0
-    private val TYPE_ITEM = 1
-
-    private val HEADER_SIZE = 1
-
     lateinit var listener: FriendPickerAdapterListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
@@ -91,4 +85,9 @@ class FriendPickerAdapter(
         }
     }
 
+    companion object {
+        const val TYPE_HEADER = 0
+        const val TYPE_ITEM = 1
+        const val HEADER_SIZE = 1
+    }
 }

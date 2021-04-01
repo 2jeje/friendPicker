@@ -21,8 +21,6 @@ class FriendPickerViewModel() : ViewModel() {
 
     var searchText: String = ""
 
-    val FETCH_COUNT = 100
-
     private var recursiveAppFriendsCompletion: ((Friends<PartnerFriend>?, Error?) -> Unit)? = null
 
     fun fetch(callback: (startPos: Int?, numberOfItem: Int?, error: Throwable?) -> Unit) {
@@ -32,7 +30,7 @@ class FriendPickerViewModel() : ViewModel() {
 
         var nextFriendsContext = PartnerFriendsContext(
             offset = 0,
-            limit = FETCH_COUNT,
+            limit = Companion.FETCH_COUNT,
             order = Order.ASC,
             friendType = FriendType.KAKAO_TALK
         )
@@ -85,5 +83,9 @@ class FriendPickerViewModel() : ViewModel() {
         }
 
         recursiveAppFriendsCompletion?.let { it(null, null) }
+    }
+
+    companion object {
+        const val FETCH_COUNT = 100
     }
 }
