@@ -7,13 +7,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jeje.friendpicker.databinding.ItemDataListBinding
 import com.jeje.friendpicker.model.Friend
-import com.jeje.friendpicker.viewmodel.FriendPickerViewModel
-
-
-interface FriendPickerAdapterListener {
-    fun onClickFriend(friend: Friend?)
-}
-
 
 open class BaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
@@ -27,12 +20,12 @@ class ItemViewHolder(val binding: ItemDataListBinding) : BaseViewHolder(binding.
 
 class FriendPickerAdapter(
     private val context: Context,
-    private val viewModel: FriendPickerViewModel
+    val callback: (List<Friend>) -> Unit
 ) : RecyclerView.Adapter<BaseViewHolder>() {
-    lateinit var listener: FriendPickerAdapterListener
+    private var friends = mutableListOf<Friend>()
+    private var selectedFriends = mutableListOf<Friend>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
-
         return when (viewType) {
             TYPE_HEADER -> {
                 val view = LayoutInflater.from(parent.context)
@@ -55,34 +48,45 @@ class FriendPickerAdapter(
             else -> TYPE_ITEM
         }
 
-    override fun getItemCount(): Int = (viewModel.friends.value?.size ?: 0) + HEADER_SIZE
+    override fun getItemCount(): Int = friends.size + HEADER_SIZE
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         if (holder is ItemViewHolder) {
-            viewModel.friends.value?.get(position - HEADER_SIZE)?.let { holder.bind(it) }
+            holder.bind(friends[position - HEADER_SIZE])
 
-            val friend = viewModel.friends.value?.get(position - HEADER_SIZE)
-            holder.binding.checkBox.isChecked = friend?.checked ?: false
+            val friend = friends[position - HEADER_SIZE]
+            holder.binding.checkBox.isChecked = friend.checked
 
             holder.itemView.setOnClickListener {
 
                 if (holder.adapterPosition != RecyclerView.NO_POSITION) {
                     //val pos = holder.adapterPosition - HEADER_SIZE
-                    listener.onClickFriend(friend)
 
-                    friend?.run {
+                    friend.run {
                         if (checked) {
                             checked = false
                             holder.binding.checkBox.isChecked = false
-
+                            selectedFriends.remove(this)
                         } else {
                             checked = true
                             holder.binding.checkBox.isChecked = true
+                            selectedFriends.add(0, this)
                         }
                     }
+                    callback(selectedFriends)
                 }
             }
         }
+    }
+
+    fun setFriends(friends: MutableList<Friend>) {
+        this.friends = friends
+        notifyDataSetChanged()
+    }
+
+    fun setSelectedFriends(selectedFriends: List<Friend>) {
+        this.selectedFriends = selectedFriends.toMutableList()
+        notifyDataSetChanged()
     }
 
     companion object {

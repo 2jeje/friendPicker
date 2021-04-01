@@ -17,10 +17,9 @@ import com.kakao.sdk.talk.model.Order
 class FriendPickerViewModel : ViewModel() {
     private var _friends = MutableLiveData<MutableList<Friend>>()
     val friends: LiveData<MutableList<Friend>> get() = _friends
-    private var _selectedFriends = MutableLiveData<MutableList<Friend>>()
-    val selectedFriends: LiveData<MutableList<Friend>> get() = _selectedFriends
 
-    private val originFriends: MutableList<Friend> = mutableListOf()
+    private var _originFriends = MutableLiveData<MutableList<Friend>>(mutableListOf())
+    val originFriends: LiveData<MutableList<Friend>> get() = _originFriends
 
     var searchText: String = ""
 
@@ -63,21 +62,20 @@ class FriendPickerViewModel : ViewModel() {
                             "카카오톡 친구 목록 받기 성공 \n${receivedFriends.elements.joinToString("\n")}"
                         )
 
-                        if (receivedFriends != null) {
-                            for (friend in receivedFriends.elements) {
-                                val friend = Friend(
-                                    profileImage = friend.profileThumbnailImage,
-                                    nickName = friend.profileNickname
-                                )
-                                this.friends.value?.add(friend)
-                                originFriends.add(friend)
-                            }
-                            val afterContext =
-                                receivedFriends.afterUrl?.let { PartnerFriendsContext(url = it) }
+                        for (friend in receivedFriends.elements) {
+                            val friend = Friend(
+                                profileImage = friend.profileThumbnailImage,
+                                nickName = friend.profileNickname
+                            )
+                            this.friends.value?.add(friend)
+                            _originFriends.value?.add(friend)
+                        }
+                        _originFriends.value = _originFriends.value?.toMutableList()
+                        val afterContext =
+                            receivedFriends.afterUrl?.let { PartnerFriendsContext(url = it) }
 
-                            if (afterContext != null) {
-                                callback(afterContext.offset, afterContext.limit, null)
-                            }
+                        if (afterContext != null) {
+                            callback(afterContext.offset, afterContext.limit, null)
                         }
                         recursiveAppFriendsCompletion?.let { it(receivedFriends, null) }
                     }
@@ -96,14 +94,14 @@ class FriendPickerViewModel : ViewModel() {
         searchText = text.toString()
 
         if (text.isNullOrEmpty()) {
-            _friends.value = originFriends.toMutableList()
+            _friends.value = originFriends.value
         } else {
-            _friends.value = originFriends.filterIndexed { index, friend ->
+            _friends.value = originFriends.value?.filterIndexed { index, friend ->
                 KoreanSoundSearchUtils.isMatchString(
                     friend.nickName.toString(),
                     text.toString()
                 ) != null
-            }.toMutableList()
+            }?.toMutableList()
         }
     }
 

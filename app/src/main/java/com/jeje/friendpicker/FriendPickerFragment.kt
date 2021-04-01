@@ -1,7 +1,6 @@
 package com.jeje.friendpicker
 
 import android.os.Bundle
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,6 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jeje.friendpicker.model.Friend
@@ -22,8 +20,7 @@ import kotlinx.android.synthetic.main.fragment_friend_picker.*
  * Use the [FriendPickerFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class FriendPickerFragment : Fragment(), FriendSelectedAdapterListener,
-    FriendPickerAdapterListener {
+class FriendPickerFragment : Fragment() {
 
     private lateinit var pickerAdapter: FriendPickerAdapter
     private lateinit var selectedAdapter: FriendSelectedAdapter
@@ -36,11 +33,11 @@ class FriendPickerFragment : Fragment(), FriendSelectedAdapterListener,
     ): View? {
 
         viewModel.friends.observe(viewLifecycleOwner, Observer {
-            pickerAdapter.notifyDataSetChanged()
+            pickerAdapter.setFriends(it)
         })
 
-        viewModel.selectedFriends.observe(viewLifecycleOwner, Observer {
-            selectedAdapter.notifyDataSetChanged()
+        viewModel.originFriends.observe(viewLifecycleOwner, Observer {
+            pickerAdapter.setFriends(it)
         })
 
         return inflater.inflate(R.layout.fragment_friend_picker, container, false)
@@ -61,71 +58,45 @@ class FriendPickerFragment : Fragment(), FriendSelectedAdapterListener,
             this.activity?.finish()
         }
 
-        selectedAdapter = FriendSelectedAdapter(requireContext(), viewModel, selected_friends_view)
+        selectedAdapter = FriendSelectedAdapter(requireContext(), selected_friends_view) {
+            pickerAdapter.setSelectedFriends(it)
+            updateHeaderView(it)
+            updateSelectedFriendView(it)
+        }
         selected_friends_view.layoutManager =
             LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
         selected_friends_view.adapter = selectedAdapter
-        selectedAdapter.listener = this
 
-        pickerAdapter = FriendPickerAdapter(requireContext(), viewModel)
+        pickerAdapter = FriendPickerAdapter(requireContext()) {
+            selectedAdapter.setSelectedFriends(it)
+            updateHeaderView(it)
+            updateSelectedFriendView(it)
+        }
         friends_view.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         friends_view.adapter = pickerAdapter
-        pickerAdapter.listener = this
 
         viewModel.fetch { startPos, numberOfItem, error ->
-            if (error == null) {
-                if (startPos != null && numberOfItem != null) {
-                    pickerAdapter.notifyItemRangeInserted(startPos, numberOfItem)
-                }
-            }
+//            if (error == null) {
+//                if (startPos != null && numberOfItem != null) {
+//                    pickerAdapter.notifyItemRangeInserted(startPos, numberOfItem)
+//                }
+//            }
         }
-
-        updateSelectedFriendView()
         updateSearchView()
-        updateHeaderView()
     }
 
-    override fun onSelectedFriendRemoved(friend: Friend?) {
-        friend?.let {
-            val pos = viewModel.friends.value?.indexOf(it)
-            if (pos != null) {
-                pickerAdapter.notifyItemChanged(pos + 1)
-            }
-        }
-    }
-
-    override fun onClickFriend(friend: Friend?) {
-
-        friend?.let {
-            if (friend.checked) {
-                val removedPos = viewModel.selectedFriends.value?.indexOf(friend)
-
-                if (removedPos != null) {
-                    viewModel.selectedFriends.value?.removeAt(removedPos)
-                    selectedAdapter.notifyItemRemoved(removedPos)
-                }
-
-            } else {
-                viewModel.selectedFriends.value?.add(0, friend)
-                selectedAdapter.notifyItemInserted(0)
-                selected_friends_view.scrollToPosition(0)
-            }
-
-            updateHeaderView()
-        }
-    }
-
-    private fun updateSelectedFriendView() {
-        if (viewModel.selectedFriends.value.isNullOrEmpty()) {
+    private fun updateSelectedFriendView(selectedFriends: List<Friend>) {
+        if (selectedFriends.isNullOrEmpty()) {
             selected_friends_view.visibility = View.GONE
         } else {
             selected_friends_view.visibility = View.VISIBLE
         }
+        selected_friends_view.scrollToPosition(0)
     }
 
-    private fun updateHeaderView() {
-        viewModel.selectedFriends.value?.let {
-            if (it.size <= 0) {
+    private fun updateHeaderView(selectedFriends: List<Friend>) {
+        selectedFriends.let {
+            if (it.isEmpty()) {
                 selected_friends_view.visibility = View.GONE
                 count_view.text = ""
                 done_btn.isEnabled = false
@@ -137,7 +108,7 @@ class FriendPickerFragment : Fragment(), FriendSelectedAdapterListener,
         }
     }
 
-    fun updateSearchView() {
+    private fun updateSearchView() {
         search_bar.setText(viewModel.searchText)
     }
 }
