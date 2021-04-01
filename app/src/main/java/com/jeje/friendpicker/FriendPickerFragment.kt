@@ -50,7 +50,7 @@ class FriendPickerFragment : Fragment(), FriendSelectedAdapterListener,
         super.onViewCreated(view, savedInstanceState)
 
         search_bar.doOnTextChanged { text, start, before, count ->
-            if (text.toString().equals(viewModel.searchText)) {
+            if (text.toString() == viewModel.searchText) {
                 return@doOnTextChanged
             }
 
