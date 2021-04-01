@@ -50,22 +50,7 @@ class FriendPickerFragment : Fragment(), FriendSelectedAdapterListener,
         super.onViewCreated(view, savedInstanceState)
 
         search_bar.doOnTextChanged { text, start, before, count ->
-            if (text.toString() == viewModel.searchText) {
-                return@doOnTextChanged
-            }
-
-            viewModel.searchText = text.toString()
-
-            if (text.isNullOrEmpty()) {
-                viewModel.friends.value = viewModel.originFriends.toMutableList()
-            } else {
-                viewModel.friends.value = viewModel.originFriends.filterIndexed { index, friend ->
-                    KoreanSoundSearchUtils.isMatchString(
-                        friend.nickName.toString(),
-                        text.toString()
-                    ) != null
-                }.toMutableList()
-            }
+            viewModel.searchName(text)
         }
 
         done_btn.setOnClickListener {

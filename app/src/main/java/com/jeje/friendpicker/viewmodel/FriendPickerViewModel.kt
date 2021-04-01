@@ -1,8 +1,10 @@
 package com.jeje.friendpicker.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.jeje.friendpicker.KoreanSoundSearchUtils
 import com.jeje.friendpicker.model.Friend
 import com.kakao.sdk.partner.talk.friendsForPartner
 import com.kakao.sdk.partner.talk.model.FriendType
@@ -13,8 +15,10 @@ import com.kakao.sdk.talk.model.Friends
 import com.kakao.sdk.talk.model.Order
 
 class FriendPickerViewModel : ViewModel() {
-    val friends: MutableLiveData<MutableList<Friend>> = MutableLiveData()
-    var selectedFriends: MutableLiveData<MutableList<Friend>> = MutableLiveData(mutableListOf())
+    private var _friends = MutableLiveData<MutableList<Friend>>()
+    val friends: LiveData<MutableList<Friend>> get() = _friends
+    private var _selectedFriends = MutableLiveData<MutableList<Friend>>()
+    val selectedFriends: LiveData<MutableList<Friend>> get() = _selectedFriends
 
     val originFriends: MutableList<Friend> = mutableListOf()
 
@@ -33,7 +37,7 @@ class FriendPickerViewModel : ViewModel() {
             order = Order.ASC,
             friendType = FriendType.KAKAO_TALK
         )
-        this.friends.value = mutableListOf()
+        _friends.value = mutableListOf()
 
         recursiveAppFriendsCompletion = recursiveAppFriendsCompletion@{ friends, error ->
             if (error == null) {
@@ -82,6 +86,25 @@ class FriendPickerViewModel : ViewModel() {
         }
 
         recursiveAppFriendsCompletion?.let { it(null, null) }
+    }
+
+    fun searchName(text: CharSequence?) {
+        if (text.toString() == searchText) {
+            return
+        }
+
+        searchText = text.toString()
+
+        if (text.isNullOrEmpty()) {
+            _friends.value = originFriends.toMutableList()
+        } else {
+            _friends.value = originFriends.filterIndexed { index, friend ->
+                KoreanSoundSearchUtils.isMatchString(
+                    friend.nickName.toString(),
+                    text.toString()
+                ) != null
+            }.toMutableList()
+        }
     }
 
     companion object {
