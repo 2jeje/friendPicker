@@ -20,7 +20,7 @@ class FriendPickerViewModel : ViewModel() {
     private var _selectedFriends = MutableLiveData<MutableList<Friend>>()
     val selectedFriends: LiveData<MutableList<Friend>> get() = _selectedFriends
 
-    val originFriends: MutableList<Friend> = mutableListOf()
+    private val originFriends: MutableList<Friend> = mutableListOf()
 
     var searchText: String = ""
 

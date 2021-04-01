@@ -22,7 +22,7 @@ class FriendSelectedAdapter(
 
     lateinit var listener: FriendSelectedAdapterListener
 
-    inner class ViewHolder(val binding: SelectedFriendListBinding) :
+    inner class ViewHolder(private val binding: SelectedFriendListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(data: Friend, position: Int) {
             binding.friend = data

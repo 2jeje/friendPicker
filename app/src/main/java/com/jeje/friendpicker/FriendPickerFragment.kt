@@ -115,7 +115,7 @@ class FriendPickerFragment : Fragment(), FriendSelectedAdapterListener,
         }
     }
 
-    fun updateSelectedFriendView() {
+    private fun updateSelectedFriendView() {
         if (viewModel.selectedFriends.value.isNullOrEmpty()) {
             selected_friends_view.visibility = View.GONE
         } else {
@@ -123,7 +123,7 @@ class FriendPickerFragment : Fragment(), FriendSelectedAdapterListener,
         }
     }
 
-    fun updateHeaderView() {
+    private fun updateHeaderView() {
         viewModel.selectedFriends.value?.let {
             if (it.size <= 0) {
                 selected_friends_view.visibility = View.GONE
@@ -140,6 +140,4 @@ class FriendPickerFragment : Fragment(), FriendSelectedAdapterListener,
     fun updateSearchView() {
         search_bar.setText(viewModel.searchText)
     }
-
-
 }
