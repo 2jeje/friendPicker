@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.Window
+import androidx.fragment.app.commit
 import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.user.UserApiClient
 import kotlinx.android.synthetic.main.activity_main.*
@@ -35,12 +36,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         fragmentBtn.setOnClickListener {
-            val transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(
-                R.id.mainlistFrame,
-                FriendPickerFragment()
-            )
-            transaction.commit()
+            supportFragmentManager.commit {
+                replace(R.id.mainlistFrame, FriendPickerFragment())
+                addToBackStack(null)
+            }
         }
     }
 }

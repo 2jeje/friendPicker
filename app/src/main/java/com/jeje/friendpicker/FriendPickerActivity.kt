@@ -2,6 +2,7 @@ package com.jeje.friendpicker
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.fragment.app.commit
 
 class FriendPickerActivity : AppCompatActivity() {
 
@@ -9,11 +10,8 @@ class FriendPickerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_friend_picker)
 
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(
-            R.id.listFrame,
-            FriendPickerFragment()
-        )
-        transaction.commit()
+        supportFragmentManager.commit {
+            replace(R.id.listFrame, FriendPickerFragment())
+        }
     }
 }
