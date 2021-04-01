@@ -70,7 +70,7 @@ class FriendPickerAdapter(
             val friend = viewModel.friends.value?.get(position - HEADER_SIZE)
             holder.binding.checkBox.isChecked = friend?.checked ?: false
 
-            holder.itemView.setOnClickListener(View.OnClickListener {
+            holder.itemView.setOnClickListener {
 
                 if (holder.adapterPosition != RecyclerView.NO_POSITION) {
                     //val pos = holder.adapterPosition - HEADER_SIZE
@@ -87,7 +87,7 @@ class FriendPickerAdapter(
                         }
                     }
                 }
-            })
+            }
         }
     }
 

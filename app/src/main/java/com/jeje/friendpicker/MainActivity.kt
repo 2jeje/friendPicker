@@ -23,25 +23,25 @@ class MainActivity : AppCompatActivity() {
             Log.i("jeje", "${token}")
 
         }
-        activityBtn.setOnClickListener(View.OnClickListener {
-            var intent = Intent(this, FriendPickerActivity::class.java)
+        activityBtn.setOnClickListener {
+            val intent = Intent(this, FriendPickerActivity::class.java)
             startActivity(intent)
-        })
+        }
 
 
-        dialogBtn.setOnClickListener(View.OnClickListener {
-            var intent = Intent(this, FriendPickerActivityDialog::class.java)
+        dialogBtn.setOnClickListener {
+            val intent = Intent(this, FriendPickerActivityDialog::class.java)
             startActivity(intent)
-        })
+        }
 
-        fragmentBtn.setOnClickListener(View.OnClickListener {
+        fragmentBtn.setOnClickListener {
             val transaction = supportFragmentManager.beginTransaction()
             transaction.replace(
                 R.id.mainlistFrame,
                 FriendPickerFragment()
             )
             transaction.commit()
-        })
+        }
     }
 }
 
