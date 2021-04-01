@@ -87,7 +87,7 @@ class FriendPickerFragment : Fragment(), FriendSelectedAdapterListener,
         friends_view.adapter = pickerAdapter
         pickerAdapter.listener = this
 
-        viewModel.fetch() { startPos, numberOfItem, error ->
+        viewModel.fetch { startPos, numberOfItem, error ->
             if (error == null) {
                 if (startPos != null && numberOfItem != null) {
                     pickerAdapter.notifyItemRangeInserted(startPos, numberOfItem)

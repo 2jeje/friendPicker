@@ -11,9 +11,8 @@ import com.kakao.sdk.partner.talk.model.PartnerFriendsContext
 import com.kakao.sdk.talk.TalkApiClient
 import com.kakao.sdk.talk.model.Friends
 import com.kakao.sdk.talk.model.Order
-import java.lang.IllegalArgumentException
 
-class FriendPickerViewModel() : ViewModel() {
+class FriendPickerViewModel : ViewModel() {
     val friends: MutableLiveData<MutableList<Friend>> = MutableLiveData()
     var selectedFriends: MutableLiveData<MutableList<Friend>> = MutableLiveData(mutableListOf())
 
@@ -30,7 +29,7 @@ class FriendPickerViewModel() : ViewModel() {
 
         var nextFriendsContext = PartnerFriendsContext(
             offset = 0,
-            limit = Companion.FETCH_COUNT,
+            limit = FETCH_COUNT,
             order = Order.ASC,
             friendType = FriendType.KAKAO_TALK
         )

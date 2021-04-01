@@ -1,12 +1,9 @@
 package com.jeje.friendpicker
 
-import android.app.Dialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.view.Window
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.user.UserApiClient
@@ -21,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         KakaoSdk.init(this, "9f9de684c354a72d2eb2a540a11441c2", loggingEnabled = true)
 
         UserApiClient.instance.loginWithKakaoAccount(this) { token, error ->
-            Log.i("jeje", "${token}")
+            Log.i("jeje", "$token")
 
         }
         activityBtn.setOnClickListener {

@@ -8,18 +8,17 @@ import com.squareup.picasso.Picasso
 
 
 data class Friend(
-        var profileImage: String? = null,
-        var nickName: String? = null,
-        var checked : Boolean = false
-){
+    var profileImage: String? = null,
+    var nickName: String? = null,
+    var checked: Boolean = false
+) {
     object Bind {
         @JvmStatic
         @BindingAdapter("app:imageUri")
         fun loadImage(imageView: ImageView, imageUri: String) {
             if (imageUri.isNullOrEmpty() == false) {
                 Picasso.get().load(imageUri).into(imageView)
-            }
-            else {
+            } else {
                 imageView.setImageResource(R.mipmap.ic_launcher)
             }
         }
