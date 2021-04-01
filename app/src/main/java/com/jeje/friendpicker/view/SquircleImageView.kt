@@ -24,16 +24,26 @@ class SquircleImageView : androidx.appcompat.widget.AppCompatImageView {
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
         init(attrs)
     }
 
     fun init(attrs: AttributeSet?) {
         attrs?.let {
-            val typedArray = context.obtainStyledAttributes(attrs, R.styleable.SquircleBorderImageView)
-            fillColor = typedArray.getColor(R.styleable.SquircleBorderImageView_squircle_fillColor, 0)
-            borderColor = typedArray.getColor(R.styleable.SquircleBorderImageView_squircle_borderColor, 0)
-            borderWidth = typedArray.getDimension(R.styleable.SquircleBorderImageView_squircle_borderWidth, borderWidth)
+            val typedArray =
+                context.obtainStyledAttributes(attrs, R.styleable.SquircleBorderImageView)
+            fillColor =
+                typedArray.getColor(R.styleable.SquircleBorderImageView_squircle_fillColor, 0)
+            borderColor =
+                typedArray.getColor(R.styleable.SquircleBorderImageView_squircle_borderColor, 0)
+            borderWidth = typedArray.getDimension(
+                R.styleable.SquircleBorderImageView_squircle_borderWidth,
+                borderWidth
+            )
             typedArray.recycle()
         }
 
@@ -48,7 +58,8 @@ class SquircleImageView : androidx.appcompat.widget.AppCompatImageView {
         maskPaint.run {
             isAntiAlias = true
             color = Color.BLACK
-            xfermode = PorterDuffXfermode(if (Build.VERSION.SDK_INT < 28) PorterDuff.Mode.DST_IN else PorterDuff.Mode.DST_OUT)
+            xfermode =
+                PorterDuffXfermode(if (Build.VERSION.SDK_INT < 28) PorterDuff.Mode.DST_IN else PorterDuff.Mode.DST_OUT)
         }
 
         borderPaint.run {
@@ -58,7 +69,7 @@ class SquircleImageView : androidx.appcompat.widget.AppCompatImageView {
 //                if (ThemeManager.getInstance()
 //                                .isDarkThemeApplicable(ContextUtils.getActivity(context))
 //                ) {
-                    ContextCompat.getColor(context, R.color.daynight_gray150a)
+                ContextCompat.getColor(context, R.color.daynight_gray150a)
 //                } else {
 //                    ContextCompat.getColor(context, R.color.profile_outline_mask)
 //                }
@@ -116,7 +127,12 @@ class SquircleImageView : androidx.appcompat.widget.AppCompatImageView {
         }
         val dipToPixelToFloat = (borderWidth * getDensity())
 
-        SquircleUtils.makeScale(borderPath, width - dipToPixelToFloat, height - dipToPixelToFloat, dipToPixelToFloat / 2f)
+        SquircleUtils.makeScale(
+            borderPath,
+            width - dipToPixelToFloat,
+            height - dipToPixelToFloat,
+            dipToPixelToFloat / 2f
+        )
         if (Build.VERSION.SDK_INT >= 28) {
             maskPath.fillType = Path.FillType.EVEN_ODD
             maskPath.addRect(RectF(0f, 0f, width.toFloat(), height.toFloat()), Path.Direction.CW)
@@ -135,7 +151,8 @@ class SquircleImageView : androidx.appcompat.widget.AppCompatImageView {
             canvas.drawPath(fillPath, fillPaint)
         }
 
-        val sc = canvas.saveLayer(0f, 0f, width.toFloat(), height.toFloat(), null, Canvas.ALL_SAVE_FLAG)
+        val sc =
+            canvas.saveLayer(0f, 0f, width.toFloat(), height.toFloat(), null, Canvas.ALL_SAVE_FLAG)
 
         super.onDraw(canvas)
 
@@ -180,130 +197,132 @@ object SquircleUtils {
     //"M383.816,206.345 C270.335,215.99, 215.891,271.217, 206.341,383.816 C201.668,383.939, 196.888,383.999, 192,383.999 C50.667,383.999, 0,333.332, 0,191.999 C0,55.999, 50.6667,-0.001, 192,-0.001 C333.333,-0.001, 384,50.6657, 384,191.999 C384,196.889, 383.939,201.67, 383.816,206.344 Z"
 
     private val POINTS_RIGHT_BEHIND = arrayOf(
-            PointF(5.029533618F,29.6605584F),
+        PointF(5.029533618F, 29.6605584F),
 
-            PointF(7.85517415F,27.0235225F),
-            PointF(9F,22.6598324F),
-            PointF(9F,16F),
+        PointF(7.85517415F, 27.0235225F),
+        PointF(9F, 22.6598324F),
+        PointF(9F, 16F),
 
-            PointF(9F,9.34016755F),
-            PointF(7.85517415F,4.97647745F),
-            PointF(5.029533618F,2.33944156F),
+        PointF(9F, 9.34016755F),
+        PointF(7.85517415F, 4.97647745F),
+        PointF(5.029533618F, 2.33944156F),
 
-            PointF(7.543037F,0.695257893F),
-            PointF(11.11530317F,0F),
-            PointF(16f, 0F),
+        PointF(7.543037F, 0.695257893F),
+        PointF(11.11530317F, 0F),
+        PointF(16f, 0F),
 
-            PointF(27.8844444F,0F),
-            PointF(32F,4.11555556F),
-            PointF(32F,16F),
+        PointF(27.8844444F, 0F),
+        PointF(32F, 4.11555556F),
+        PointF(32F, 16F),
 
-            PointF(32F,27.8844444F),
-            PointF(27.8844444F,32F),
-            PointF(16F,32F),
+        PointF(32F, 27.8844444F),
+        PointF(27.8844444F, 32F),
+        PointF(16F, 32F),
 
-            PointF(11.11530317F,32F),
-            PointF(7.543037F,31.3047421F),
-            PointF(5.029533618F,29.6605584F))
+        PointF(11.11530317F, 32F),
+        PointF(7.543037F, 31.3047421F),
+        PointF(5.029533618F, 29.6605584F)
+    )
 
     private val POINT_2_UP = arrayOf(
-            PointF(383.816F, 206.345F),
+        PointF(383.816F, 206.345F),
 
-            PointF(270.335F, 215.99F),
-            PointF(215.891F, 271.217F),
-            PointF(206.341F, 383.816F),
+        PointF(270.335F, 215.99F),
+        PointF(215.891F, 271.217F),
+        PointF(206.341F, 383.816F),
 
-            PointF(201.668F, 383.939F),
-            PointF(196.888F, 383.999F),
-            PointF(192F, 383.999F),
+        PointF(201.668F, 383.939F),
+        PointF(196.888F, 383.999F),
+        PointF(192F, 383.999F),
 
-            PointF(50.667F, 383.999F),
-            PointF(0F, 333.332F),
-            PointF(0F, 191.999F),
+        PointF(50.667F, 383.999F),
+        PointF(0F, 333.332F),
+        PointF(0F, 191.999F),
 
-            PointF(0F, 55.999F),
-            PointF(50.6667F, -0.001F),
-            PointF(192F, -0.001F),
+        PointF(0F, 55.999F),
+        PointF(50.6667F, -0.001F),
+        PointF(192F, -0.001F),
 
-            PointF(333.333F, -0.001F),
-            PointF(384F, 50.6657F),
-            PointF(384F, 191.999F),
+        PointF(333.333F, -0.001F),
+        PointF(384F, 50.6657F),
+        PointF(384F, 191.999F),
 
-            PointF(384F, 196.889F),
-            PointF(383.939F, 201.67F),
-            PointF(383.816F, 206.344F))
+        PointF(384F, 196.889F),
+        PointF(383.939F, 201.67F),
+        PointF(383.816F, 206.344F)
+    )
 
     // 3_left_bottom M189.123,0 C221.469,38.9616, 273.006,58.1043, 347.337,61.0344 C330.268,94.6682, 322.234,138.05, 322.234,191.997 C322.234,250.41, 330.997,296.041, 350,330.369 C320.604,368.401, 270.148,384.001, 191.806,384.001 C50.616,384.001, 0,333.333, 0,191.998 C0,56.86, 49.9738,0.71, 189.123,0.001 Z
     private val POINTS_3_LEFT_BOTTOM = arrayOf(
-            PointF(189.123F, 0F), // M
+        PointF(189.123F, 0F), // M
 
-            PointF(221.469F, 38.9616F),    // C
-            PointF(273.006F, 58.1043F),
-            PointF(347.337F, 61.0344F),
+        PointF(221.469F, 38.9616F),    // C
+        PointF(273.006F, 58.1043F),
+        PointF(347.337F, 61.0344F),
 
-            PointF(330.268F, 94.6682F),     // C
-            PointF(322.234F, 138.05F),
-            PointF(322.234F, 191.997F),
+        PointF(330.268F, 94.6682F),     // C
+        PointF(322.234F, 138.05F),
+        PointF(322.234F, 191.997F),
 
-            PointF(322.234F, 250.41F),       // C
-            PointF(330.997F, 296.041F),
-            PointF(350F, 330.369F),
+        PointF(322.234F, 250.41F),       // C
+        PointF(330.997F, 296.041F),
+        PointF(350F, 330.369F),
 
-            PointF(320.604F, 368.401F),      // C
-            PointF(270.148F, 384.001F),
-            PointF(191.806F, 384.001F),
+        PointF(320.604F, 368.401F),      // C
+        PointF(270.148F, 384.001F),
+        PointF(191.806F, 384.001F),
 
-            PointF(50.616F, 384.001F),       // C
-            PointF(0F, 333.333F),
-            PointF(0F, 191.998F),
+        PointF(50.616F, 384.001F),       // C
+        PointF(0F, 333.333F),
+        PointF(0F, 191.998F),
 
-            PointF(0F, 56.86F),      //C
-            PointF(49.9738F, 0.71F),
-            PointF(189.123F, 0.001F)    //Z
+        PointF(0F, 56.86F),      //C
+        PointF(49.9738F, 0.71F),
+        PointF(189.123F, 0.001F)    //Z
     )
     private val EXTRA = arrayOf(
-            PointF(384F,191.997F)
+        PointF(384F, 191.997F)
     )
 
     // 3_right_bottom M194.686,0 C333.976,0.642036, 384,51.5603, 384,191.997 C384,333.333, 333.333,384, 192,384 C50.667,384, 0,333.333, 0,191.997 C0,134.912, 8.92644,91.921, 29.7373,61.25 C107.69,59.2053, 161.362,40.0991, 194.686,-0.0002 Z
     private val POINTS_3_RIGHT_BOTTOM = arrayOf(
-            PointF(194.686F, 0F),      // M
-            PointF(333.976F, 0.642036F),   // C
-            PointF(384F, 51.5603F),
-            PointF(384F, 191.997F),
-            PointF(384F, 333.333F),        // C
-            PointF(333.333F, 384F),
-            PointF(192F, 384F),
-            PointF(50.667F, 384F),     //  C
-            PointF(0F, 333.333F),
-            PointF(0F, 191.997F),
-            PointF(0F, 134.912F),      //C
-            PointF(8.92644F, 91.921F),
-            PointF(29.7373F, 61.25F),
-            PointF(107.69F, 59.2053F),     //C
-            PointF(161.362F, 40.0991F),
-            PointF(194.686F, -0.0002F)     // M
+        PointF(194.686F, 0F),      // M
+        PointF(333.976F, 0.642036F),   // C
+        PointF(384F, 51.5603F),
+        PointF(384F, 191.997F),
+        PointF(384F, 333.333F),        // C
+        PointF(333.333F, 384F),
+        PointF(192F, 384F),
+        PointF(50.667F, 384F),     //  C
+        PointF(0F, 333.333F),
+        PointF(0F, 191.997F),
+        PointF(0F, 134.912F),      //C
+        PointF(8.92644F, 91.921F),
+        PointF(29.7373F, 61.25F),
+        PointF(107.69F, 59.2053F),     //C
+        PointF(161.362F, 40.0991F),
+        PointF(194.686F, -0.0002F)     // M
     )
 
     // M270,540 C71.251,540,0,468.754,0,270 C0,78.748,71.2511,0,270,0 C468.754,0,540,71.2511,540,270 C540,468.754,468.754,540,270,540 Z
     private val POINTS_WHOLE = arrayOf(
-            PointF(270f, 540f),
+        PointF(270f, 540f),
 
-            PointF(71.251f, 540f),
-            PointF(0f, 468.754f),
-            PointF(0f, 270f),
+        PointF(71.251f, 540f),
+        PointF(0f, 468.754f),
+        PointF(0f, 270f),
 
-            PointF(0f, 71.2511f),
-            PointF(71.2511f, 0f),
-            PointF(270f, 0f),
+        PointF(0f, 71.2511f),
+        PointF(71.2511f, 0f),
+        PointF(270f, 0f),
 
-            PointF(468.754f, 0f),
-            PointF(540f, 71.2511f),
-            PointF(540f, 270f),
+        PointF(468.754f, 0f),
+        PointF(540f, 71.2511f),
+        PointF(540f, 270f),
 
-            PointF(540f, 468.754f),
-            PointF(468.754f, 540f),
-            PointF(270f, 540f)
+        PointF(540f, 468.754f),
+        PointF(468.754f, 540f),
+        PointF(270f, 540f)
     )
 
     @JvmStatic
@@ -334,7 +353,7 @@ object SquircleUtils {
         val path = Path()
         path.set(getSquircleProfilePath(WHOLE))
         path.computeBounds(bound, true)
-        matrix.setScale(scale / bound.width(), scale/ bound.height())
+        matrix.setScale(scale / bound.width(), scale / bound.height())
 
         path.close()
         path.transform(matrix)

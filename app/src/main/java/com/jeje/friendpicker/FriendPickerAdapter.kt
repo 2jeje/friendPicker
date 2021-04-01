@@ -19,13 +19,16 @@ open class BaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
 class HeaderViewHolder(itemView: View) : BaseViewHolder(itemView)
 
-class ItemViewHolder(val binding : ItemDataListBinding): BaseViewHolder(binding.root) {
+class ItemViewHolder(val binding: ItemDataListBinding) : BaseViewHolder(binding.root) {
     fun bind(data: Friend) {
         binding.friend = data
     }
 }
 
-class FriendPickerAdapter(private val context : Context, private val viewModel: FriendPickerViewModel) : RecyclerView.Adapter<BaseViewHolder>() {
+class FriendPickerAdapter(
+    private val context: Context,
+    private val viewModel: FriendPickerViewModel
+) : RecyclerView.Adapter<BaseViewHolder>() {
 
     private val TYPE_HEADER = 0
     private val TYPE_ITEM = 1
@@ -37,13 +40,14 @@ class FriendPickerAdapter(private val context : Context, private val viewModel: 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
 
         return when (viewType) {
-            TYPE_HEADER ->{
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.friend_recycler_header, parent, false)
+            TYPE_HEADER -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.friend_recycler_header, parent, false)
                 HeaderViewHolder(view)
             }
 
-            TYPE_ITEM->{
-                val view = ItemDataListBinding.inflate( LayoutInflater.from(context), parent, false)
+            TYPE_ITEM -> {
+                val view = ItemDataListBinding.inflate(LayoutInflater.from(context), parent, false)
                 ItemViewHolder(view)
             }
             else -> throw Exception("Unknow viewType $viewType")
@@ -52,10 +56,10 @@ class FriendPickerAdapter(private val context : Context, private val viewModel: 
     }
 
     override fun getItemViewType(position: Int): Int =
-            when(position) {
-                0 -> TYPE_HEADER
-                else -> TYPE_ITEM
-            }
+        when (position) {
+            0 -> TYPE_HEADER
+            else -> TYPE_ITEM
+        }
 
     override fun getItemCount(): Int = (viewModel.friends.value?.size ?: 0) + HEADER_SIZE
 

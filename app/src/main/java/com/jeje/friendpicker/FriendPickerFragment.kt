@@ -22,12 +22,13 @@ import kotlinx.android.synthetic.main.fragment_friend_picker.*
  * Use the [FriendPickerFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class FriendPickerFragment : Fragment() , FriendSelectedAdapterListener, FriendPickerAdapterListener{
+class FriendPickerFragment : Fragment(), FriendSelectedAdapterListener,
+    FriendPickerAdapterListener {
 
     private lateinit var pickerAdapter: FriendPickerAdapter
     private lateinit var selectedAdapter: FriendSelectedAdapter
 
-    private val viewModel : FriendPickerViewModel by activityViewModels()
+    private val viewModel: FriendPickerViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,9 +58,12 @@ class FriendPickerFragment : Fragment() , FriendSelectedAdapterListener, FriendP
 
             if (text.isNullOrEmpty()) {
                 viewModel.friends.value = viewModel.originFriends.toMutableList()
-            }else{
-                viewModel.friends.value = viewModel.originFriends.filterIndexed{ index, friend ->
-                    KoreanSoundSearchUtils.isMatchString(friend.nickName.toString() ,text.toString() ) != null
+            } else {
+                viewModel.friends.value = viewModel.originFriends.filterIndexed { index, friend ->
+                    KoreanSoundSearchUtils.isMatchString(
+                        friend.nickName.toString(),
+                        text.toString()
+                    ) != null
                 }.toMutableList()
             }
         }
@@ -73,7 +77,8 @@ class FriendPickerFragment : Fragment() , FriendSelectedAdapterListener, FriendP
         }
 
         selectedAdapter = FriendSelectedAdapter(requireContext(), viewModel, selected_friends_view)
-        selected_friends_view.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
+        selected_friends_view.layoutManager =
+            LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
         selected_friends_view.adapter = selectedAdapter
         selectedAdapter.listener = this
 
@@ -128,8 +133,7 @@ class FriendPickerFragment : Fragment() , FriendSelectedAdapterListener, FriendP
     fun updateSelectedFriendView() {
         if (viewModel.selectedFriends.value.isNullOrEmpty()) {
             selected_friends_view.visibility = View.GONE
-        }
-        else {
+        } else {
             selected_friends_view.visibility = View.VISIBLE
         }
     }
@@ -140,8 +144,7 @@ class FriendPickerFragment : Fragment() , FriendSelectedAdapterListener, FriendP
                 selected_friends_view.visibility = View.GONE
                 count_view.text = ""
                 done_btn.isEnabled = false
-            }
-            else {
+            } else {
                 selected_friends_view.visibility = View.VISIBLE
                 count_view.text = it.size.toString()
                 done_btn.isEnabled = true
