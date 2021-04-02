@@ -7,52 +7,63 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jeje.friendpicker.databinding.SelectedFriendListBinding
 import com.jeje.friendpicker.model.Friend
-import com.jeje.friendpicker.viewmodel.FriendPickerViewModel
 
+class FriendSelectedAdapter(
+    private val context: Context,
+    private val view: View,
+    private val removeCallback: (Friend, List<Friend>) -> Unit
+) : RecyclerView.Adapter<FriendSelectedAdapter.ViewHolder>() {
+    private var selectedFriends = mutableListOf<Friend>()
 
-interface FriendSelectedAdapterListener {
-    fun onSelectedFriendRemoved(friend: Friend?)
-}
-
-class FriendSelectedAdapter(private val context : Context, private val viewModel: FriendPickerViewModel, private val view : View) : RecyclerView.Adapter<FriendSelectedAdapter.ViewHolder>() {
-
-    lateinit var listener :  FriendSelectedAdapterListener
-
-    inner class ViewHolder(val binding : SelectedFriendListBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: Friend, position: Int) {
+    class ViewHolder(private val binding: SelectedFriendListBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(data: Friend) {
             binding.friend = data
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = SelectedFriendListBinding.inflate( LayoutInflater.from(context), parent, false)
+        val view = SelectedFriendListBinding.inflate(LayoutInflater.from(context), parent, false)
         return ViewHolder(view)
     }
 
-    override fun getItemCount(): Int = viewModel.selectedFriends.value?.size ?: 0
+    override fun getItemCount(): Int = selectedFriends.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        viewModel.selectedFriends.value?.get(position)?.let { holder.bind(it, position) }
+        val friend = selectedFriends[position]
+        holder.bind(friend)
 
-        val friend = viewModel.selectedFriends.value?.get(position)
-
-        holder.itemView.setOnClickListener(View.OnClickListener {
+        holder.itemView.setOnClickListener {
 
             if (holder.adapterPosition != RecyclerView.NO_POSITION) {
                 val pos = holder.adapterPosition
-                viewModel.selectedFriends.value?.removeAt(pos)
+                selectedFriends.removeAt(pos)
 
-                friend?.checked = false
-                listener?.onSelectedFriendRemoved(friend)
+                friend.checked = false
+                notifyItemChanged(pos + 1)
 
                 notifyItemRemoved(pos)
 
-                if (viewModel.selectedFriends.value?.size!! <= 0) {
+                if (selectedFriends.size <= 0) {
                     view.visibility = View.GONE
                 }
+                removeCallback(friend, selectedFriends)
             }
-        })
+        }
+    }
 
+    fun setSelectedFriends(selectedFriends: List<Friend>) {
+        this.selectedFriends = selectedFriends.toMutableList()
+    }
+
+    fun removeFriend(friend: Friend) {
+        val position = selectedFriends.indexOf(friend)
+        notifyItemRemoved(position)
+    }
+
+    fun addFriend(friend: Friend) {
+        selectedFriends.add(0, friend)
+        notifyItemInserted(0)
     }
 }
 

@@ -4,8 +4,10 @@ object KoreanSoundSearchUtils {
     private const val UNICODE_KOAREAN_BEGIN = 44032  // '가'
     private const val UNICODE_KOAREAN_END = 55203   // '힣'
     private const val KOREAN_BASE_UNIT = 588        // 각자음 마다 가지는 글자수
-    private val KOAREAN_INITIAL_SOUND = charArrayOf('ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ',
-            'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ')
+    private val KOAREAN_INITIAL_SOUND = charArrayOf(
+        'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ',
+        'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'
+    )
 
     private fun isInitialSound(keyword: Char): Boolean {
         for (initialSound in KOAREAN_INITIAL_SOUND) {
