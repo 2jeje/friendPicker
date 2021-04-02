@@ -36,8 +36,11 @@ class FriendPickerFragment : Fragment() {
             pickerAdapter.setFriends(it)
         })
 
-        viewModel.originFriends.observe(viewLifecycleOwner, Observer {
-            pickerAdapter.setFriends(it)
+        viewModel.selectedFriend.observe(viewLifecycleOwner, Observer {
+            pickerAdapter.setSelectedFriends(it)
+            selectedAdapter.setSelectedFriends(it)
+            updateHeaderView(it)
+            updateSelectedFriendView(it)
         })
 
         return inflater.inflate(R.layout.fragment_friend_picker, container, false)
@@ -58,29 +61,31 @@ class FriendPickerFragment : Fragment() {
             this.activity?.finish()
         }
 
-        selectedAdapter = FriendSelectedAdapter(requireContext(), selected_friends_view) {
-            pickerAdapter.setSelectedFriends(it)
-            updateHeaderView(it)
-            updateSelectedFriendView(it)
-        }
+        selectedAdapter =
+            FriendSelectedAdapter(requireContext(), selected_friends_view) { friend, list ->
+                viewModel.setSelectedFriends(list)
+                pickerAdapter.removeSelectedFriend(friend, list)
+                updateHeaderView(list)
+                updateSelectedFriendView(list)
+            }
         selected_friends_view.layoutManager =
             LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
         selected_friends_view.adapter = selectedAdapter
 
-        pickerAdapter = FriendPickerAdapter(requireContext()) {
-            selectedAdapter.setSelectedFriends(it)
-            updateHeaderView(it)
-            updateSelectedFriendView(it)
-        }
+        pickerAdapter = FriendPickerAdapter(requireContext(), listCallback = {
+            viewModel.setSelectedFriends(it)
+        }, addCallback = { selectedAdapter.addFriend(it) }, removeCallback = {
+            selectedAdapter.removeFriend(it)
+        })
         friends_view.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         friends_view.adapter = pickerAdapter
 
         viewModel.fetch { startPos, numberOfItem, error ->
-//            if (error == null) {
-//                if (startPos != null && numberOfItem != null) {
-//                    pickerAdapter.notifyItemRangeInserted(startPos, numberOfItem)
-//                }
-//            }
+            if (error == null) {
+                if (startPos != null && numberOfItem != null) {
+                    pickerAdapter.notifyItemRangeInserted(startPos, numberOfItem)
+                }
+            }
         }
         updateSearchView()
     }

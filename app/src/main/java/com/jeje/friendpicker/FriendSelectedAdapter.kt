@@ -11,7 +11,7 @@ import com.jeje.friendpicker.model.Friend
 class FriendSelectedAdapter(
     private val context: Context,
     private val view: View,
-    val callback: (List<Friend>) -> Unit
+    private val removeCallback: (Friend, List<Friend>) -> Unit
 ) : RecyclerView.Adapter<FriendSelectedAdapter.ViewHolder>() {
     private var selectedFriends = mutableListOf<Friend>()
 
@@ -47,14 +47,23 @@ class FriendSelectedAdapter(
                 if (selectedFriends.size <= 0) {
                     view.visibility = View.GONE
                 }
-                callback(selectedFriends)
+                removeCallback(friend, selectedFriends)
             }
         }
     }
 
     fun setSelectedFriends(selectedFriends: List<Friend>) {
         this.selectedFriends = selectedFriends.toMutableList()
-        notifyDataSetChanged()
+    }
+
+    fun removeFriend(friend: Friend) {
+        val position = selectedFriends.indexOf(friend)
+        notifyItemRemoved(position)
+    }
+
+    fun addFriend(friend: Friend) {
+        selectedFriends.add(0, friend)
+        notifyItemInserted(0)
     }
 }
 

@@ -21,6 +21,9 @@ class FriendPickerViewModel : ViewModel() {
     private var _originFriends = MutableLiveData<MutableList<Friend>>(mutableListOf())
     val originFriends: LiveData<MutableList<Friend>> get() = _originFriends
 
+    private var _selectedFriends = MutableLiveData<MutableList<Friend>>(mutableListOf())
+    val selectedFriend: LiveData<MutableList<Friend>> get() = _selectedFriends
+
     var searchText: String = ""
 
     private var recursiveAppFriendsCompletion: ((Friends<PartnerFriend>?, Error?) -> Unit)? = null
@@ -103,6 +106,10 @@ class FriendPickerViewModel : ViewModel() {
                 ) != null
             }?.toMutableList()
         }
+    }
+
+    fun setSelectedFriends(selectedFriends: List<Friend>){
+        _selectedFriends.value = selectedFriends.toMutableList()
     }
 
     companion object {
