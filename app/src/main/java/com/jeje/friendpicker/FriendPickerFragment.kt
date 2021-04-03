@@ -102,11 +102,9 @@ class FriendPickerFragment : Fragment() {
     private fun updateHeaderView(selectedFriends: List<Friend>) {
         selectedFriends.let {
             if (it.isEmpty()) {
-                selected_friends_view.visibility = View.GONE
                 count_view.text = ""
                 done_btn.isEnabled = false
             } else {
-                selected_friends_view.visibility = View.VISIBLE
                 count_view.text = it.size.toString()
                 done_btn.isEnabled = true
             }

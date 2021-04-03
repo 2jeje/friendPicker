@@ -40,13 +40,9 @@ class FriendSelectedAdapter(
                 selectedFriends.removeAt(pos)
 
                 friend.checked = false
-                notifyItemChanged(pos + 1)
 
                 notifyItemRemoved(pos)
 
-                if (selectedFriends.size <= 0) {
-                    view.visibility = View.GONE
-                }
                 removeCallback(friend, selectedFriends)
             }
         }

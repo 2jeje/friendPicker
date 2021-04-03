@@ -89,10 +89,11 @@ class FriendPickerAdapter(
     }
 
     fun removeSelectedFriend(friend: Friend, selectedFriends: List<Friend>) {
-        this.selectedFriends = selectedFriends.toMutableList()
         val position = friends.indexOf(friend)
-        friends[position].checked = false
-        notifyItemChanged(position + 1)
+        if (position >= 0) {
+            friends[position].checked = false
+            notifyItemChanged(position + 1)
+        }
     }
 
     fun setSelectedFriends(selectedFriends: MutableList<Friend>) {
