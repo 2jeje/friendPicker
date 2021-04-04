@@ -13,7 +13,7 @@ class FriendSelectedAdapter(
     private val view: View,
     private val removeCallback: (Friend, List<Friend>) -> Unit
 ) : RecyclerView.Adapter<FriendSelectedAdapter.ViewHolder>() {
-    private var selectedFriends = mutableListOf<Friend>()
+    private var friends = mutableListOf<Friend>()
 
     class ViewHolder(private val binding: SelectedFriendListBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -27,49 +27,51 @@ class FriendSelectedAdapter(
         return ViewHolder(view)
     }
 
-    override fun getItemCount(): Int = selectedFriends.size
+    override fun getItemCount(): Int = friends.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val friend = selectedFriends[position]
+        val friend = friends[position]
         holder.bind(friend)
+
+        updateVisibility()
 
         holder.itemView.setOnClickListener {
 
             if (holder.adapterPosition != RecyclerView.NO_POSITION) {
                 val pos = holder.adapterPosition
-                selectedFriends.removeAt(pos)
+                friends.removeAt(pos)
 
                 friend.checked = false
 
                 notifyItemRemoved(pos)
 
-                removeCallback(friend, selectedFriends)
+                removeCallback(friend, friends)
             }
         }
     }
 
     fun setSelectedFriends(selectedFriends: List<Friend>) {
-        this.selectedFriends = selectedFriends.toMutableList()
+        this.friends = selectedFriends.toMutableList()
     }
 
     fun removeFriend(friend: Friend) {
-        val position = selectedFriends.indexOf(friend)
-        selectedFriends.remove(friend)
+        val position = friends.indexOf(friend)
+        friends.remove(friend)
         notifyItemRemoved(position)
 
         updateVisibility()
     }
 
     fun addFriend(friend: Friend) {
-        if (!selectedFriends.contains(friend)) {
-            selectedFriends.add(0, friend)
+        if (!friends.contains(friend)) {
+            friends.add(0, friend)
             notifyItemInserted(0)
         }
         updateVisibility()
     }
 
     private fun updateVisibility() {
-        if (selectedFriends.isNullOrEmpty()) {
+        if (friends.isNullOrEmpty()) {
             view.visibility = View.GONE
         }
         else {

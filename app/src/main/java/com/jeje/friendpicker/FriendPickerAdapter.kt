@@ -21,8 +21,7 @@ class ItemViewHolder(val binding: ItemDataListBinding) : BaseViewHolder(binding.
 class FriendPickerAdapter(
     private val context: Context,
     private val addCallback: (Friend)->Unit,
-    private val removeCallback: (Friend) -> Unit,
-    private val listCallback: (List<Friend>) -> Unit
+    private val removeCallback: (Friend) -> Unit
 ) : RecyclerView.Adapter<BaseViewHolder>() {
     private var friends = mutableListOf<Friend>()
 

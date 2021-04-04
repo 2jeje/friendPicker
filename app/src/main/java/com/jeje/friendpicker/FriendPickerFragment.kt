@@ -36,13 +36,6 @@ class FriendPickerFragment : Fragment() {
             pickerAdapter.setFriends(it)
         })
 
-        viewModel.selectedFriend.observe(viewLifecycleOwner, Observer {
-           // pickerAdapter.setSelectedFriends(it)
-            selectedAdapter.setSelectedFriends(it)
-            updateHeaderView(it)
-            updateSelectedFriendView(it)
-        })
-
         return inflater.inflate(R.layout.fragment_friend_picker, container, false)
     }
 
@@ -63,24 +56,25 @@ class FriendPickerFragment : Fragment() {
 
         selectedAdapter =
             FriendSelectedAdapter(requireContext(), selected_friends_view) { friend, list ->
-                viewModel.setSelectedFriends(list)
                 pickerAdapter.removeSelectedFriend(friend, list)
                 updateHeaderView(list)
                 updateSelectedFriendView(list)
             }
+        viewModel.originFriends.value?.filter { it.checked == true }?.let {
+            selectedAdapter.setSelectedFriends(
+                it
+            )
+        }
         selected_friends_view.layoutManager =
             LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
         selected_friends_view.adapter = selectedAdapter
 
-        pickerAdapter = FriendPickerAdapter(requireContext(), listCallback = {
-            viewModel.setSelectedFriends(it)
-        }, addCallback = {
-            viewModel.selectedFriend.value?.add(it)
-            selectedAdapter.addFriend(it)
-        }, removeCallback = {
-            viewModel.selectedFriend.value?.remove(it)
-            selectedAdapter.removeFriend(it)
-        })
+        pickerAdapter = FriendPickerAdapter(requireContext(),
+            addCallback = {
+                selectedAdapter.addFriend(it)
+            }, removeCallback = {
+                selectedAdapter.removeFriend(it)
+            })
 
         friends_view.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         friends_view.adapter = pickerAdapter
