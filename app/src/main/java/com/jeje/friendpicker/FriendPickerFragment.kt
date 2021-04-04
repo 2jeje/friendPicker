@@ -12,7 +12,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jeje.friendpicker.databinding.FragmentFriendPickerBinding
-import com.jeje.friendpicker.model.Friend
 import com.jeje.friendpicker.viewmodel.FriendPickerViewModel
 import kotlinx.android.synthetic.main.fragment_friend_picker.*
 
@@ -37,7 +36,7 @@ class FriendPickerFragment : Fragment() {
     ): View? {
 
         viewModel.friends.observe(viewLifecycleOwner, Observer {
-            pickerAdapter.setFriends(it)
+            pickerAdapter.friends = it
         })
 
         binding =  DataBindingUtil.inflate(inflater,R.layout.fragment_friend_picker, container,false)
@@ -50,7 +49,7 @@ class FriendPickerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         search_bar.doOnTextChanged { text, start, before, count ->
-            pickerAdapter.setFriends(viewModel.search(text))
+            pickerAdapter.friends = viewModel.search(text).toMutableList()
             pickerAdapter.notifyDataSetChanged()
         }
 
@@ -70,9 +69,7 @@ class FriendPickerFragment : Fragment() {
             }
 
         viewModel.friends.value?.filter { it.checked == true }?.let {
-            selectedAdapter.setSelectedFriends(
-                it
-            )
+            selectedAdapter.friends = it.toMutableList()
         }
         selected_friends_view.layoutManager =
             LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
@@ -95,7 +92,7 @@ class FriendPickerFragment : Fragment() {
         viewModel.fetch { startPos, numberOfItem, error ->
             if (error == null) {
                 if (startPos != null && numberOfItem != null) {
-                    viewModel.friends.value?.toMutableList()?.let { pickerAdapter.setFriends(it) }
+                    viewModel.friends.value?.toMutableList()?.let { pickerAdapter.friends = it }
                     pickerAdapter.notifyItemRangeInserted(startPos, numberOfItem)
                 }
             }

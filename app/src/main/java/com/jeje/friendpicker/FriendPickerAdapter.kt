@@ -23,7 +23,13 @@ class FriendPickerAdapter(
     private val addCallback: (Friend)->Unit,
     private val removeCallback: (Friend) -> Unit
 ) : RecyclerView.Adapter<BaseViewHolder>() {
-    private var friends = mutableListOf<Friend>()
+
+    private var _friends = mutableListOf<Friend>()
+    var friends: MutableList<Friend>
+        get() = _friends
+        set (value) {
+            _friends = value
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         return when (viewType) {
@@ -74,10 +80,6 @@ class FriendPickerAdapter(
                 }
             }
         }
-    }
-
-    fun setFriends(friends: List<Friend>) {
-        this.friends = friends.toMutableList()
     }
 
     fun removeSelectedFriend(friend: Friend, selectedFriends: List<Friend>) {

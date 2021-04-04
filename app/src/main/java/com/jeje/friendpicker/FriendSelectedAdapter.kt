@@ -1,23 +1,22 @@
 package com.jeje.friendpicker
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.jeje.friendpicker.databinding.SelectedFriendListBinding
 import com.jeje.friendpicker.model.Friend
-import kotlinx.android.synthetic.main.fragment_friend_picker.*
 
 class FriendSelectedAdapter(
     private val context: Context,
     private val removeCallback: (Friend, List<Friend>) -> Unit
 ) : RecyclerView.Adapter<FriendSelectedAdapter.ViewHolder>() {
     private var _friends = mutableListOf<Friend>()
-    val friends: MutableList<Friend> get() = _friends
+    var friends: MutableList<Friend>
+        get() = _friends
+        set (value) {
+            _friends = value
+        }
 
     class ViewHolder(private val binding: SelectedFriendListBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -48,10 +47,6 @@ class FriendSelectedAdapter(
                 removeCallback(friend, friends)
             }
         }
-    }
-
-    fun setSelectedFriends(selectedFriends: List<Friend>) {
-        this._friends = selectedFriends.toMutableList()
     }
 
     fun removeFriend(friend: Friend) {
