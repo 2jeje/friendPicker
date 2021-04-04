@@ -58,9 +58,9 @@ class FriendPickerAdapter(
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         if (holder is ItemViewHolder) {
-            holder.bind(friends[position - HEADER_SIZE])
+            holder.bind(_friends[position - HEADER_SIZE])
 
-            val friend = friends[position - HEADER_SIZE]
+            val friend = _friends[position - HEADER_SIZE]
             holder.binding.checkBox.isChecked = friend.checked
 
             holder.itemView.setOnClickListener {
@@ -83,9 +83,9 @@ class FriendPickerAdapter(
     }
 
     fun removeSelectedFriend(friend: Friend, selectedFriends: List<Friend>) {
-        val position = friends.indexOf(friend)
+        val position = _friends.indexOf(friend)
         if (position >= 0) {
-            friends[position].checked = false
+            _friends[position].checked = false
             notifyItemChanged(position + 1)
         }
     }
