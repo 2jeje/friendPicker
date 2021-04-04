@@ -18,10 +18,10 @@ class FriendPickerViewModel : ViewModel() {
     private var _friends = MutableLiveData<MutableList<Friend>>()
     val friends: LiveData<MutableList<Friend>> get() = _friends
 
-    private var _originFriends = MutableLiveData<MutableList<Friend>>(mutableListOf())
-    val originFriends: LiveData<MutableList<Friend>> get() = _originFriends
+    //  private var _originFriends = MutableLiveData<MutableList<Friend>>(mutableListOf())
+    //  val originFriends: LiveData<MutableList<Friend>> get() = _originFriends
 
-    var searchText: String = ""
+    var searchNickname: String = ""
 
     private var recursiveAppFriendsCompletion: ((Friends<PartnerFriend>?, Error?) -> Unit)? = null
 
@@ -68,9 +68,8 @@ class FriendPickerViewModel : ViewModel() {
                                 nickName = friend.profileNickname
                             )
                             this.friends.value?.add(friend)
-                            _originFriends.value?.add(friend)
                         }
-                        _originFriends.value = _originFriends.value?.toMutableList()
+
                         val afterContext =
                             receivedFriends.afterUrl?.let { PartnerFriendsContext(url = it) }
 
@@ -86,23 +85,20 @@ class FriendPickerViewModel : ViewModel() {
         recursiveAppFriendsCompletion?.let { it(null, null) }
     }
 
-    fun searchName(text: CharSequence?) {
-        if (text.toString() == searchText) {
-            return
+    fun search(nickName: CharSequence?): List<Friend> {
+        if (nickName.isNullOrEmpty() || nickName.toString() == searchNickname) {
+            searchNickname = nickName.toString()
+            return friends.value?.toList() ?: listOf()
         }
 
-        searchText = text.toString()
+        searchNickname = nickName.toString()
+        return _friends.value?.filterIndexed { index, friend ->
+            KoreanSoundSearchUtils.isMatchString(
+                friend.nickName.toString(),
+                nickName.toString()
+            ) != null
+        }?.toList() ?: listOf()
 
-        if (text.isNullOrEmpty()) {
-            _friends.value = originFriends.value
-        } else {
-            _friends.value = originFriends.value?.filterIndexed { index, friend ->
-                KoreanSoundSearchUtils.isMatchString(
-                    friend.nickName.toString(),
-                    text.toString()
-                ) != null
-            }?.toMutableList()
-        }
     }
 
     companion object {

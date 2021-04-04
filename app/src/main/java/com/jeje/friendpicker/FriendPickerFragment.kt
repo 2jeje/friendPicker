@@ -32,9 +32,9 @@ class FriendPickerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        viewModel.friends.observe(viewLifecycleOwner, Observer {
-            pickerAdapter.setFriends(it)
-        })
+//        viewModel.friends.observe(viewLifecycleOwner, Observer {
+//            pickerAdapter.setFriends(it)
+//        })
 
         return inflater.inflate(R.layout.fragment_friend_picker, container, false)
     }
@@ -43,7 +43,8 @@ class FriendPickerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         search_bar.doOnTextChanged { text, start, before, count ->
-            viewModel.searchName(text)
+            pickerAdapter.setFriends(viewModel.search(text))
+            pickerAdapter.notifyDataSetChanged()
         }
 
         done_btn.setOnClickListener {
@@ -61,7 +62,7 @@ class FriendPickerFragment : Fragment() {
                 updateSelectedFriendsVisibility()
             }
 
-        viewModel.originFriends.value?.filter { it.checked == true }?.let {
+        viewModel.friends.value?.filter { it.checked == true }?.let {
             selectedAdapter.setSelectedFriends(
                 it
             )
@@ -86,10 +87,12 @@ class FriendPickerFragment : Fragment() {
         viewModel.fetch { startPos, numberOfItem, error ->
             if (error == null) {
                 if (startPos != null && numberOfItem != null) {
+                    viewModel.friends.value?.toMutableList()?.let { pickerAdapter.setFriends(it) }
                     pickerAdapter.notifyItemRangeInserted(startPos, numberOfItem)
                 }
             }
         }
+
         updateSearchView()
     }
 
@@ -106,7 +109,7 @@ class FriendPickerFragment : Fragment() {
     }
 
     private fun updateSearchView() {
-        search_bar.setText(viewModel.searchText)
+        search_bar.setText(viewModel.searchNickname)
     }
 
     private fun updateSelectedFriendsVisibility() {

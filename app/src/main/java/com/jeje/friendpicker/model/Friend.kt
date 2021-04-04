@@ -10,7 +10,8 @@ import com.jeje.friendpicker.R
 data class Friend(
     var profileImage: String? = null,
     var nickName: String? = null,
-    var checked: Boolean = false
+    var checked: Boolean = false,
+    var isShowing: Boolean = true
 ) {
     object Bind {
         @JvmStatic

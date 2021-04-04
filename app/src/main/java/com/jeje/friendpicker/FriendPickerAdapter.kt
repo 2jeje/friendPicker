@@ -76,9 +76,8 @@ class FriendPickerAdapter(
         }
     }
 
-    fun setFriends(friends: MutableList<Friend>) {
-        this.friends = friends
-        notifyDataSetChanged()
+    fun setFriends(friends: List<Friend>) {
+        this.friends = friends.toMutableList()
     }
 
     fun removeSelectedFriend(friend: Friend, selectedFriends: List<Friend>) {
