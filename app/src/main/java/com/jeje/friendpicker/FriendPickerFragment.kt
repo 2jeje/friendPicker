@@ -57,7 +57,7 @@ class FriendPickerFragment : Fragment() {
         selectedAdapter =
             FriendSelectedAdapter(requireContext()) { friend, list ->
                 pickerAdapter.removeSelectedFriend(friend, list)
-                updateHeaderView(list)
+                updateHeaderView()
                 updateSelectedFriendsVisibility()
             }
 
@@ -73,9 +73,11 @@ class FriendPickerFragment : Fragment() {
         pickerAdapter = FriendPickerAdapter(requireContext(),
             addCallback = {
                 selectedAdapter.addFriend(it)
+                updateHeaderView()
                 updateSelectedFriendsVisibility()
             }, removeCallback = {
                 selectedAdapter.removeFriend(it)
+                updateHeaderView()
             })
 
         friends_view.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
@@ -91,8 +93,8 @@ class FriendPickerFragment : Fragment() {
         updateSearchView()
     }
 
-    private fun updateHeaderView(selectedFriends: List<Friend>) {
-        selectedFriends.let {
+    private fun updateHeaderView() {
+        selectedAdapter.friends?.let {
             if (it.isEmpty()) {
                 count_view.text = ""
                 done_btn.isEnabled = false
