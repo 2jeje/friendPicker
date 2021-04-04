@@ -25,7 +25,6 @@ class FriendPickerAdapter(
     private val listCallback: (List<Friend>) -> Unit
 ) : RecyclerView.Adapter<BaseViewHolder>() {
     private var friends = mutableListOf<Friend>()
-    private var selectedFriends = mutableListOf<Friend>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         return when (viewType) {
@@ -62,23 +61,18 @@ class FriendPickerAdapter(
             holder.itemView.setOnClickListener {
 
                 if (holder.adapterPosition != RecyclerView.NO_POSITION) {
-                    //val pos = holder.adapterPosition - HEADER_SIZE
-
                     friend.run {
                         if (checked) {
                             checked = false
                             holder.binding.checkBox.isChecked = false
-                            selectedFriends.remove(this)
                             removeCallback(this)
                         } else {
                             checked = true
                             holder.binding.checkBox.isChecked = true
-                            selectedFriends.add(0, this)
                             addCallback(this)
                         }
                     }
                 }
-                listCallback(selectedFriends)
             }
         }
     }
@@ -94,10 +88,6 @@ class FriendPickerAdapter(
             friends[position].checked = false
             notifyItemChanged(position + 1)
         }
-    }
-
-    fun setSelectedFriends(selectedFriends: MutableList<Friend>) {
-        this.selectedFriends = selectedFriends
     }
 
     companion object {

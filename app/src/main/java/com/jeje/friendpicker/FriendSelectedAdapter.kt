@@ -54,12 +54,27 @@ class FriendSelectedAdapter(
 
     fun removeFriend(friend: Friend) {
         val position = selectedFriends.indexOf(friend)
+        selectedFriends.remove(friend)
         notifyItemRemoved(position)
+
+        updateVisibility()
     }
 
     fun addFriend(friend: Friend) {
-        selectedFriends.add(0, friend)
-        notifyItemInserted(0)
+        if (!selectedFriends.contains(friend)) {
+            selectedFriends.add(0, friend)
+            notifyItemInserted(0)
+        }
+        updateVisibility()
+    }
+
+    private fun updateVisibility() {
+        if (selectedFriends.isNullOrEmpty()) {
+            view.visibility = View.GONE
+        }
+        else {
+            view.visibility = View.VISIBLE
+        }
     }
 }
 

@@ -37,7 +37,7 @@ class FriendPickerFragment : Fragment() {
         })
 
         viewModel.selectedFriend.observe(viewLifecycleOwner, Observer {
-            pickerAdapter.setSelectedFriends(it)
+           // pickerAdapter.setSelectedFriends(it)
             selectedAdapter.setSelectedFriends(it)
             updateHeaderView(it)
             updateSelectedFriendView(it)
@@ -74,9 +74,14 @@ class FriendPickerFragment : Fragment() {
 
         pickerAdapter = FriendPickerAdapter(requireContext(), listCallback = {
             viewModel.setSelectedFriends(it)
-        }, addCallback = { selectedAdapter.addFriend(it) }, removeCallback = {
+        }, addCallback = {
+            viewModel.selectedFriend.value?.add(it)
+            selectedAdapter.addFriend(it)
+        }, removeCallback = {
+            viewModel.selectedFriend.value?.remove(it)
             selectedAdapter.removeFriend(it)
         })
+
         friends_view.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         friends_view.adapter = pickerAdapter
 
