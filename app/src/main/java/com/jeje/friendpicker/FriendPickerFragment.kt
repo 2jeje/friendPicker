@@ -36,9 +36,9 @@ class FriendPickerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-//        viewModel.friends.observe(viewLifecycleOwner, Observer {
-//            pickerAdapter.setFriends(it)
-//        })
+        viewModel.friends.observe(viewLifecycleOwner, Observer {
+            pickerAdapter.setFriends(it)
+        })
 
         binding =  DataBindingUtil.inflate(inflater,R.layout.fragment_friend_picker, container,false)
         binding.viewModel = viewModel
