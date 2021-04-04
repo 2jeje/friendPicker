@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jeje.friendpicker.databinding.SelectedFriendListBinding
 import com.jeje.friendpicker.model.Friend
+import kotlinx.android.synthetic.main.fragment_friend_picker.*
 
 class FriendSelectedAdapter(
     private val context: Context,

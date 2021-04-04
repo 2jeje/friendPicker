@@ -60,6 +60,7 @@ class FriendPickerFragment : Fragment() {
                 updateHeaderView(list)
                 updateSelectedFriendView(list)
             }
+        
         viewModel.originFriends.value?.filter { it.checked == true }?.let {
             selectedAdapter.setSelectedFriends(
                 it
@@ -72,6 +73,7 @@ class FriendPickerFragment : Fragment() {
         pickerAdapter = FriendPickerAdapter(requireContext(),
             addCallback = {
                 selectedAdapter.addFriend(it)
+                selected_friends_view.scrollToPosition(0)
             }, removeCallback = {
                 selectedAdapter.removeFriend(it)
             })
