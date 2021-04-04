@@ -5,11 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.jeje.friendpicker.databinding.FragmentFriendPickerBinding
 import com.jeje.friendpicker.model.Friend
 import com.jeje.friendpicker.viewmodel.FriendPickerViewModel
 import kotlinx.android.synthetic.main.fragment_friend_picker.*
@@ -27,6 +29,8 @@ class FriendPickerFragment : Fragment() {
 
     private val viewModel: FriendPickerViewModel by activityViewModels()
 
+    private lateinit var binding : FragmentFriendPickerBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,7 +40,10 @@ class FriendPickerFragment : Fragment() {
 //            pickerAdapter.setFriends(it)
 //        })
 
-        return inflater.inflate(R.layout.fragment_friend_picker, container, false)
+        binding =  DataBindingUtil.inflate(inflater,R.layout.fragment_friend_picker, container,false)
+        binding.viewModel = viewModel
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -94,7 +101,6 @@ class FriendPickerFragment : Fragment() {
             }
         }
 
-        updateSearchView()
         updateSelectedFriendsVisibility()
     }
 
@@ -108,10 +114,6 @@ class FriendPickerFragment : Fragment() {
                 done_btn.isEnabled = true
             }
         }
-    }
-
-    private fun updateSearchView() {
-        search_bar.setText(viewModel.searchNickname)
     }
 
     private fun updateSelectedFriendsVisibility() {
