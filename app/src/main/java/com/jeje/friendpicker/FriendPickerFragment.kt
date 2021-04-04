@@ -79,6 +79,7 @@ class FriendPickerFragment : Fragment() {
             }, removeCallback = {
                 selectedAdapter.removeFriend(it)
                 updateHeaderView()
+                updateSelectedFriendsVisibility()
             })
 
         friends_view.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
@@ -94,6 +95,7 @@ class FriendPickerFragment : Fragment() {
         }
 
         updateSearchView()
+        updateSelectedFriendsVisibility()
     }
 
     private fun updateHeaderView() {
