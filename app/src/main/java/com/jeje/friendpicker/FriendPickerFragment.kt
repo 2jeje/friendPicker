@@ -55,12 +55,12 @@ class FriendPickerFragment : Fragment() {
         }
 
         selectedAdapter =
-            FriendSelectedAdapter(requireContext(), selected_friends_view) { friend, list ->
+            FriendSelectedAdapter(requireContext()) { friend, list ->
                 pickerAdapter.removeSelectedFriend(friend, list)
                 updateHeaderView(list)
-                updateSelectedFriendView(list)
+                updateSelectedFriendsVisibility()
             }
-        
+
         viewModel.originFriends.value?.filter { it.checked == true }?.let {
             selectedAdapter.setSelectedFriends(
                 it
@@ -73,7 +73,7 @@ class FriendPickerFragment : Fragment() {
         pickerAdapter = FriendPickerAdapter(requireContext(),
             addCallback = {
                 selectedAdapter.addFriend(it)
-                selected_friends_view.scrollToPosition(0)
+                updateSelectedFriendsVisibility()
             }, removeCallback = {
                 selectedAdapter.removeFriend(it)
             })
@@ -91,15 +91,6 @@ class FriendPickerFragment : Fragment() {
         updateSearchView()
     }
 
-    private fun updateSelectedFriendView(selectedFriends: List<Friend>) {
-        if (selectedFriends.isNullOrEmpty()) {
-            selected_friends_view.visibility = View.GONE
-        } else {
-            selected_friends_view.visibility = View.VISIBLE
-        }
-        selected_friends_view.scrollToPosition(0)
-    }
-
     private fun updateHeaderView(selectedFriends: List<Friend>) {
         selectedFriends.let {
             if (it.isEmpty()) {
@@ -114,5 +105,15 @@ class FriendPickerFragment : Fragment() {
 
     private fun updateSearchView() {
         search_bar.setText(viewModel.searchText)
+    }
+
+    private fun updateSelectedFriendsVisibility() {
+        if (selectedAdapter.friends.isNullOrEmpty()) {
+            selected_friends_view.visibility = View.GONE
+        }
+        else {
+            selected_friends_view.visibility = View.VISIBLE
+        }
+        selected_friends_view.scrollToPosition(0)
     }
 }
