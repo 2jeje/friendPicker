@@ -141,6 +141,23 @@
             app:layout_constraintTop_toBottomOf="@id/search_bar"
             tools:listitem="@layout/item_data_list" />
 
+        <com.jeje.friendpicker.view.SideIndexView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/side_index_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/img_index_bg"
+            android:layout_gravity="end"
+            android:paddingBottom="@dimen/padding_small"
+            android:paddingTop="@dimen/padding_small"
+            android:visibility="invisible"
+            android:layout_marginTop="@dimen/sideindex_margin_top"
+            android:layout_marginBottom="73dp"
+            app:sideindex_text_color="#808080"
+            app:layout_constraintTop_toBottomOf="@id/search_bar"
+            app:layout_constraintRight_toRightOf="parent"
+            app:sideindex_text_size="12sp" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
 </layout>

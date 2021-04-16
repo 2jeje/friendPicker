@@ -1,27 +1,48 @@
-package com.jeje.friendpicker.view/*package com.jeje.friendpicker
+package com.jeje.friendpicker.view
 
+import android.app.Activity
 import android.content.Context
+import android.content.res.ColorStateList
 import android.content.res.Configuration
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Typeface
-import android.graphics.drawable.Drawable
+import android.graphics.*
+import android.graphics.drawable.*
+import android.os.Build
+import android.text.SpannableString
+import android.text.style.UnderlineSpan
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.AbsListView
-import android.widget.ImageView
-import android.widget.TextView
+import android.webkit.WebView
+import android.widget.*
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.jeje.friendpicker.R
+import com.jeje.friendpicker.model.Friend
+import com.jeje.friendpicker.util.FriendManager
+import com.jeje.friendpicker.util.PhonemeUtils
+import com.jeje.friendpicker.util.ViewUtils
+import com.jeje.friendpicker.util.trimZeroWidthChars
+import org.apache.commons.lang3.ArrayUtils
+import org.apache.commons.lang3.StringUtils
 import java.util.*
 import kotlin.Comparator
 import kotlin.math.abs
 import kotlin.math.max
+
+interface FilterSearchable {
+    val filterKeyword: String
+}
 
 class SideIndexView : View {
 
@@ -72,8 +93,8 @@ class SideIndexView : View {
 
     var isEnabledSideIndex = true
 
-    private var toastTextView: TextView
-    private var toastImageView: ImageView
+//    private var toastTextView: TextView
+//    private var toastImageView: ImageView
 
     interface OnTouchListener {
         fun onTouchDown()
@@ -117,10 +138,10 @@ class SideIndexView : View {
             setIternalIndexItems(configuration.orientation)
         }
 
-        singleToast.initializeToast(context, R.layout.expandable_list_position)
-
-        toastTextView = singleToast.findViewById(R.id.text) as TextView
-        toastImageView = singleToast.findViewById(R.id.icon) as ImageView
+//        singleToast.initializeToast(context, R.layout.expandable_list_position)
+//
+//        toastTextView = singleToast.findViewById(R.id.text) as TextView
+//        toastImageView = singleToast.findViewById(R.id.icon) as ImageView
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -247,22 +268,22 @@ class SideIndexView : View {
             }
         }
         if (index == FAVORITE) {
-            toastImageView.apply {
-                setImageDrawable(DrawableUtils.applyTint(ContextCompat.getDrawable(context, R.drawable.list_index_ico_favorite_large),
-                        ContextCompat.getColor(context, R.color.daynight_gray600s)))
-            }.visibility = VISIBLE
-            toastTextView.visibility = GONE
+//            toastImageView.apply {
+//                setImageDrawable(DrawableUtils.applyTint(ContextCompat.getDrawable(context, R.drawable.list_index_ico_favorite_large),
+//                        ContextCompat.getColor(context, R.color.daynight_gray600s)))
+//            }.visibility = VISIBLE
+           // toastTextView.visibility = GONE
         } else {
-            toastTextView.apply {
-                text = index
-            }.visibility = VISIBLE
-            toastImageView.visibility = GONE
+          //  toastTextView.apply {
+          //      text = index
+           // }.visibility = VISIBLE
+           // toastImageView.visibility = GONE
         }
 
         isShowSingleToast = true
-        singleToast.setVisibility(VISIBLE)
+       // singleToast.setVisibility(VISIBLE)
 
-        singleToast.removeToast(1500)
+       // singleToast.removeToast(1500)
     }
 
     fun setConfigurationChanged(configuration: Configuration) {
@@ -313,7 +334,7 @@ class SideIndexView : View {
         invalidate()
     }
 
-    fun setDataSource(friendList: List<*>, friendListOffset: Int, favoriteOffset: Int, recommendOffset: Int) {
+    fun setDataSource(friendList: List<Friend>, friendListOffset: Int, favoriteOffset: Int, recommendOffset: Int) {
         this.friendListSize = friendList.size
         this.friendListOffset = friendListOffset
         this.favoriteOffset = favoriteOffset
@@ -336,7 +357,7 @@ class SideIndexView : View {
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        singleToast.destroy()
+        //singleToast.destroy()
     }
 
     override fun setVisibility(visibility: Int) {
@@ -353,7 +374,7 @@ class SideIndexView : View {
             this.animation = anim
             this.startAnimation(anim)
         } else {
-            singleToast.removeToast(0)
+            //singleToast.removeToast(0)
         }
 
         if (visibility != VISIBLE) {
@@ -394,17 +415,17 @@ class SideIndexView : View {
         computeVerticalScrollExtent() < computeVerticalScrollRange()
     } ?: false
 
-    private val singleToast = object : SingleToast() {
-
-        override fun removeWindow() {
-            if (isShowSingleToast) {
-                isShowSingleToast = false
-                scrolling = false
-                this.setVisibility(INVISIBLE)
-                scrollListener.onScrollStateChanged(recyclerView!!, AbsListView.OnScrollListener.SCROLL_STATE_IDLE)
-            }
-        }
-    }
+//    private val singleToast = object : SingleToast() {
+//
+//        override fun removeWindow() {
+//            if (isShowSingleToast) {
+//                isShowSingleToast = false
+//                scrolling = false
+//                this.setVisibility(INVISIBLE)
+//                scrollListener.onScrollStateChanged(recyclerView!!, AbsListView.OnScrollListener.SCROLL_STATE_IDLE)
+//            }
+//        }
+//    }
 
     private fun getGroupIndexMap(friendList: List<*>, comparator: java.util.Comparator<String>): TreeMap<String, Int> {
         val alphabetIndexSet: TreeSet<String> by lazy {
@@ -460,7 +481,7 @@ class SideIndexView : View {
     }
 
     private val sideIndexerComparator: java.util.Comparator<String> =
-            Comparator { lhs, rhs -> FriendManager.compare(lhs.trimZeroWidthChars(), rhs.trimZeroWidthChars()) }
+        Comparator { lhs, rhs -> FriendManager.compare(lhs.trimZeroWidthChars(), rhs.trimZeroWidthChars()) }
 
     private val sideIndexerOldComparator: java.util.Comparator<String> by lazy {
         Comparator<String> { lhs, rhs -> FriendManager.compareForOld(lhs, rhs) }
@@ -489,10 +510,46 @@ class SideIndexView : View {
             } else sortedMap[sortedMap.firstKey()]
 
         } catch (nse: NoSuchElementException) {
-            Logger.wt(Logger.Tag.EXPANDABLE, "", nse)
+            //Logger.wt(Logger.Tag.EXPANDABLE, "", nse)
         }
 
         return null
     }
 }
- */
+
+
+object DrawableUtils {
+    @JvmStatic
+    fun extractBitmap(drawable: Drawable?, width: Int, height: Int): Bitmap {
+        return if (drawable is BitmapDrawable) {
+            val sourceBitmap = drawable.bitmap
+            Bitmap.createScaledBitmap(sourceBitmap, width, height, true)
+        } else {
+            val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_4444)
+            val canvas = Canvas(bitmap)
+            val state = drawable?.constantState
+            if (state != null) {
+                val cloneDrawable = state.newDrawable()
+                cloneDrawable.setBounds(0, 0, canvas.width, canvas.height)
+                cloneDrawable.draw(canvas)
+            } else {
+                drawable?.setBounds(0, 0, canvas.width, canvas.height)
+                drawable?.draw(canvas)
+            }
+            bitmap
+        }
+    }
+
+    @JvmStatic
+    fun applyTint(drawable: Drawable?, @ColorInt tintColor: Int): Drawable {
+        if(drawable == null) return ShapeDrawable()
+        val wrapped = DrawableCompat.wrap(drawable)
+        DrawableCompat.setTint(wrapped.mutate(), tintColor)
+        return wrapped
+    }
+}
+
+
+
+
+

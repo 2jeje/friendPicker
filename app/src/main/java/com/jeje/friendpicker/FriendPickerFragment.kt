@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.jeje.friendpicker.databinding.FragmentFriendPickerBinding
+import com.jeje.friendpicker.util.ViewBindable
 import com.jeje.friendpicker.viewmodel.FriendPickerViewModel
 import kotlinx.android.synthetic.main.fragment_friend_picker.*
 
@@ -37,6 +38,7 @@ class FriendPickerFragment : Fragment() {
 
         viewModel.friends.observe(viewLifecycleOwner, Observer {
             pickerAdapter.friends = it
+            refreshSideIndexerData()
         })
 
         binding =  DataBindingUtil.inflate(inflater,R.layout.fragment_friend_picker, container,false)
@@ -47,6 +49,9 @@ class FriendPickerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        side_index_view.recyclerView = binding.friendsView
+        side_index_view.visibility = View.VISIBLE
 
         search_bar.doOnTextChanged { text, start, before, count ->
             pickerAdapter.friends = viewModel.search(text).toMutableList()
@@ -94,6 +99,7 @@ class FriendPickerFragment : Fragment() {
                 if (startPos != null && numberOfItem != null) {
                     viewModel.friends.value?.toMutableList()?.let { pickerAdapter.friends = it }
                     pickerAdapter.notifyItemRangeInserted(startPos, numberOfItem)
+
                 }
             }
         }
@@ -121,5 +127,43 @@ class FriendPickerFragment : Fragment() {
             selected_friends_view.visibility = View.VISIBLE
         }
         selected_friends_view.scrollToPosition(0)
+    }
+
+    private fun refreshSideIndexerData() {
+        val sideIndexView = binding?.sideIndexView ?: return
+
+        //var friendListOffset = 0
+        var favoriteOffset = -1
+        var recommendOffset = -1
+        //var friendList = emptyList<ViewBindable>()
+        val friendList = viewModel.friends.value?.toList() ?: emptyList()
+        val friendListOffset =  viewModel.friends.value?.size ?: 0
+        var isEnabledSideIndex = true
+
+//        run loop@{
+//            items?.forEach { item ->
+//                ++friendListOffset
+//                if (item !is SectionHeaderItem) return@forEach
+//
+//                if (item.titleId == SectionType.FAVORITE.titleId) {
+//                    favoriteOffset = friendListOffset - 1
+//                }
+////                if (item.titleId == SectionType.RECOMMEND.titleId) {
+////                    recommendOffset = friendListOffset - 1
+////                }
+//                if (item.titleId == SectionType.FRIEND.titleId) {
+//                    friendList = item.children
+//                    isEnabledSideIndex = !item.isCollapsed
+//                    return@loop
+//                } else if (!item.isCollapsed) {
+//                    friendListOffset += item.children.size
+//                }
+//            }
+//        }
+
+        //sideIndexView.setDataSource(friendList, friendListOffset, favoriteOffset, recommendOffset)
+        sideIndexView.setDataSource(friendList, friendListOffset, favoriteOffset, recommendOffset)
+        sideIndexView.setIndexItems(R.array.side_indexer, R.array.side_indexer_landscape)
+        sideIndexView.isEnabledSideIndex = isEnabledSideIndex
     }
 }
