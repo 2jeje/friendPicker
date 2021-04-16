@@ -51,7 +51,7 @@ class FriendPickerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         side_index_view.recyclerView = binding.friendsView
-        side_index_view.visibility = View.VISIBLE
+
 
         search_bar.doOnTextChanged { text, start, before, count ->
             pickerAdapter.friends = viewModel.search(text).toMutableList()
@@ -93,6 +93,18 @@ class FriendPickerFragment : Fragment() {
 
         friends_view.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         friends_view.adapter = pickerAdapter
+
+        friends_view.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING ||  newState == RecyclerView.SCROLL_STATE_SETTLING) {
+                    side_index_view.visibility = View.VISIBLE
+                }
+                else {
+                    side_index_view.visibility = View.INVISIBLE
+                }
+            }
+        })
 
         viewModel.fetch { startPos, numberOfItem, error ->
             if (error == null) {
